@@ -1,0 +1,187 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Indices and tables &#8212; chessboard 1.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <p>This is a chessboard display module for board games in CLI.</p>
+<p>The <cite>chessboardCLI</cite> package is available on <cite>pypi</cite>:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">chessboardCLI</span>
+</pre></div>
+</div>
+<p>Remember, the module name is <cite>chessboard</cite> and the package name is <cite>chessboardCLI</cite>.</p>
+<p>This is what the chessboard looks like:</p>
+<blockquote>
+<div><blockquote>
+<div>1 2 3 4 5 6 7 8 9 A</div></blockquote>
+<p>1|X| | | | | | | | | |
+2| <a href="#id1"><span class="problematic" id="id2">|O|</span></a> | | | | | | | |
+3| | <a href="#id3"><span class="problematic" id="id4">|X|</span></a> | | | | | | |
+4| | | <a href="#id5"><span class="problematic" id="id6">|O|</span></a> | | | | | |
+5| | | | <a href="#id7"><span class="problematic" id="id8">|X|</span></a> | | | | |
+6| | | | | <a href="#id9"><span class="problematic" id="id10">|O|</span></a> | | | |
+7| | | | | | <a href="#id11"><span class="problematic" id="id12">|X|</span></a> | | |
+8| | | | | | | <a href="#id13"><span class="problematic" id="id14">|O|</span></a> | |
+9| | | | | | | | <a href="#id15"><span class="problematic" id="id16">|X|</span></a> |
+A| | | | | | | | | <a href="#id17"><span class="problematic" id="id18">|O|</span></a></p>
+</div></blockquote>
+<p>The Chessboard class:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">chessboard</span><span class="o">.</span><span class="n">Chessboard</span><span class="p">(</span><span class="n">board_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ch_off</span><span class="o">=</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">ch_def</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">ch_blank</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li><cite>board_size</cite> defines the size of the chessboard</li>
+<li><cite>win</cite> defines the number of chess pieces to win in a line</li>
+<li><cite>ch_off</cite> defines the character of offensive player</li>
+<li><cite>ch_def</cite> defines the character of defensive player</li>
+<li><cite>ch_black</cite> defines the character of default place</li>
+<li><cite>user_number</cite> defines the number of players (No use)</li>
+</ul>
+<p>Some methods to operate the chessboard is listed</p>
+<dl class="docutils">
+<dt>::</dt>
+<dd>set_pos(self, x, y, user)</dd>
+</dl>
+<ul class="simple">
+<li><cite>x, y</cite> are the coordinates of chess</li>
+<li><cite>user</cite> is the order of player</li>
+</ul>
+<dl class="docutils">
+<dt>::</dt>
+<dd>set_pos_on_board_special(self, x, y, user, board=None, user_number=2)</dd>
+</dl>
+<ul class="simple">
+<li>Set a chess on a specific coodinate (x, y) for user on board</li>
+<li>If <cite>board</cite> is given, put on the <cite>board</cite>, else, put on the <cite>self.pos</cite></li>
+</ul>
+<dl class="docutils">
+<dt>::</dt>
+<dd>print_pos(self, pos=None)</dd>
+</dl>
+<ul class="simple">
+<li>Print the chessboard, if <cite>pos</cite> is given, print <cite>pos</cite>, else, print <cite>self.pos</cite></li>
+</ul>
+<dl class="docutils">
+<dt>::</dt>
+<dd>rotate_board(self, angle, unit=’radian’)</dd>
+</dl>
+<ul>
+<li><p class="first">Rotate the chessboard <em>anticlockwise</em> for <cite>angle</cite> degree/radian (based on <cite>unit</cite>), using the center of the chessboard as the center of rotation, e.g.,</p>
+<blockquote>
+<div><p>1 2 3</p>
+</div></blockquote>
+<p>1|O|X| |
+2| | | |
+3| | | |</p>
+</li>
+</ul>
+<p>becomes</p>
+<blockquote>
+<div><blockquote>
+<div>1 2 3</div></blockquote>
+<p>1| | <a href="#id19"><span class="problematic" id="id20">|O|</span></a>
+2| | <a href="#id21"><span class="problematic" id="id22">|X|</span></a>
+3| | | |</p>
+</div></blockquote>
+<p>when call <cite>self.rotate_board(270, ‘angle’)</cite></p>
+<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<ul class="simple">
+<li><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></li>
+<li><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></li>
+<li><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></li>
+</ul>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="#">chessboard</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="#">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2017, Hou Lu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
+      
+      |
+      <a href="_sources/index.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
