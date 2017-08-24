@@ -82,6 +82,7 @@ Some methods to operate the chessboard is listed
 * Rotate the chessboard *anticlockwise* for `angle` degree/radian (based on `unit`), using the center of the chessboard as the center of rotation, e.g.,  
 
 ::
+
   * 1 2 3
   1|O|X| |
   2| | | |
@@ -90,6 +91,7 @@ Some methods to operate the chessboard is listed
 becomes  
 
 ::
+
   * 1 2 3
   1| | |O|
   2| | |X|
