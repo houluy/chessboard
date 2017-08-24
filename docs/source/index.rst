@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-###########################
+===========================
 chessboard's documentation!
 ===========================
 
@@ -11,7 +11,7 @@ This is a chessboard display module for board games in CLI.
 
 ************
 Installation
-============
+************
 
 The `chessboardCLI` package is available on `pypi`::
 
@@ -21,7 +21,8 @@ Remember, the module name is `chessboard` and the package name is `chessboardCLI
 
 **********
 Chessboard
-==========
+**********
+
 This is what the chessboard looks like:
 
 ::
@@ -40,7 +41,7 @@ This is what the chessboard looks like:
 
 ****
 Init
-====
+****
 
 The Chessboard class::
 
@@ -55,7 +56,7 @@ The Chessboard class::
 
 *******
 Methods
-=======
+*******
 
 Some methods to operate the chessboard is listed  
 
@@ -105,7 +106,7 @@ when call `self.rotate_board(270, 'angle')`
    :caption: Contents:
 
 
-
+==================
 Indices and tables
 ==================
 
