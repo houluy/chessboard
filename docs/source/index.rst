@@ -1,10 +1,8 @@
-===========================
 chessboard's documentation!
 ===========================
 
 This is a chessboard display module for board games in CLI.
 
-************
 Installation
 ************
 
@@ -14,7 +12,6 @@ The `chessboardCLI` package is available on `pypi`::
 
 Remember, the module name is `chessboard` and the package name is `chessboardCLI`.
 
-**********
 Chessboard
 **********
 
@@ -22,19 +19,18 @@ This is what the chessboard looks like:
 
 ::
 
-      * 1 2 3 4 5 6 7 8 9 A
-      1|X| | | | | | | | | |
-      2| |O| | | | | | | | |
-      3| | |X| | | | | | | |
-      4| | | |O| | | | | | |
-      5| | | | |X| | | | | |
-      6| | | | | |O| | | | |
-      7| | | | | | |X| | | |
-      8| | | | | | | |O| | |
-      9| | | | | | | | |X| |
-      A| | | | | | | | | |O|
+    * 1 2 3 4 5 6 7 8 9 A
+    1|X| | | | | | | | | |
+    2| |O| | | | | | | | |
+    3| | |X| | | | | | | |
+    4| | | |O| | | | | | |
+    5| | | | |X| | | | | |
+    6| | | | | |O| | | | |
+    7| | | | | | |X| | | |
+    8| | | | | | | |O| | |
+    9| | | | | | | | |X| |
+    A| | | | | | | | | |O|
 
-****
 Init
 ****
 
@@ -49,7 +45,6 @@ The Chessboard class::
 * `ch_black` defines the character of default place
 * `user_number` defines the number of players (No use)
 
-*******
 Methods
 *******
 
