@@ -1,4 +1,4 @@
-chessboard's documentation!
+chessboardM's documentation!
 ===========================
 
 This is a chessboard display module for board games in CLI.
@@ -48,26 +48,22 @@ The Chessboard class::
 Methods
 *******
 
-Some methods to operate the chessboard is listed  
+Some methods to operate the chessboard is listed::
 
-::
     set_pos(self, x, y, user)
 
 * `x, y` are the coordinates of chess
-* `user` is the order of player  
+* `user` is the order of player::
 
-::
     set_pos_on_board_special(self, x, y, user, board=None, user_number=2)
 
 * Set a chess on a specific coodinate (x, y) for user on board  
-* If `board` is given, put on the `board`, else, put on the `self.pos`  
+* If `board` is given, put on the `board`, else, put on the `self.pos`::
 
-::
     print_pos(self, pos=None)
 
-* Print the chessboard, if `pos` is given, print `pos`, else, print `self.pos`
-
-::
+* Print the chessboard, if `pos` is given, print `pos`, else, print `self.pos`::
+  
     rotate_board(self, angle, unit='radian')
 
 * Rotate the chessboard *anticlockwise* for `angle` degree/radian (based on `unit`), using the center of the chessboard as the center of rotation, e.g.,  
