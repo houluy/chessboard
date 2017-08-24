@@ -46,20 +46,19 @@
 </div>
 <p>Remember, the module name is <cite>chessboard</cite> and the package name is <cite>chessboardCLI</cite>.</p>
 <p>This is what the chessboard looks like:</p>
-<blockquote>
-<div><blockquote>
-<div>1 2 3 4 5 6 7 8 9 A</div></blockquote>
-<p>1|X| | | | | | | | | |
-2| <a href="#id1"><span class="problematic" id="id2">|O|</span></a> | | | | | | | |
-3| | <a href="#id3"><span class="problematic" id="id4">|X|</span></a> | | | | | | |
-4| | | <a href="#id5"><span class="problematic" id="id6">|O|</span></a> | | | | | |
-5| | | | <a href="#id7"><span class="problematic" id="id8">|X|</span></a> | | | | |
-6| | | | | <a href="#id9"><span class="problematic" id="id10">|O|</span></a> | | | |
-7| | | | | | <a href="#id11"><span class="problematic" id="id12">|X|</span></a> | | |
-8| | | | | | | <a href="#id13"><span class="problematic" id="id14">|O|</span></a> | |
-9| | | | | | | | <a href="#id15"><span class="problematic" id="id16">|X|</span></a> |
-A| | | | | | | | | <a href="#id17"><span class="problematic" id="id18">|O|</span></a></p>
-</div></blockquote>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="n">A</span>
+<span class="mi">1</span><span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">2</span><span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">3</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">4</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">5</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">6</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">7</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">8</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">9</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span>
+<span class="n">A</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span>
+</pre></div>
+</div>
 <p>The Chessboard class:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">chessboard</span><span class="o">.</span><span class="n">Chessboard</span><span class="p">(</span><span class="n">board_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ch_off</span><span class="o">=</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">ch_def</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">ch_blank</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
@@ -100,24 +99,30 @@ A| | | | | | | | | <a href="#id17"><span class="problematic" id="id18">|O|</span
 <dt>::</dt>
 <dd>rotate_board(self, angle, unit=’radian’)</dd>
 </dl>
-<ul>
-<li><p class="first">Rotate the chessboard <em>anticlockwise</em> for <cite>angle</cite> degree/radian (based on <cite>unit</cite>), using the center of the chessboard as the center of rotation, e.g.,</p>
-<blockquote>
-<div><p>1 2 3</p>
-</div></blockquote>
-<p>1|O|X| |
+<ul class="simple">
+<li>Rotate the chessboard <em>anticlockwise</em> for <cite>angle</cite> degree/radian (based on <cite>unit</cite>), using the center of the chessboard as the center of rotation, e.g.,</li>
+</ul>
+<dl class="docutils">
+<dt>::</dt>
+<dd><ul class="first simple">
+<li>1 2 3</li>
+</ul>
+<p class="last">1|O|X| |
 2| | | |
 3| | | |</p>
-</li>
-</ul>
+</dd>
+</dl>
 <p>becomes</p>
-<blockquote>
-<div><blockquote>
-<div>1 2 3</div></blockquote>
-<p>1| | <a href="#id19"><span class="problematic" id="id20">|O|</span></a>
-2| | <a href="#id21"><span class="problematic" id="id22">|X|</span></a>
+<dl class="docutils">
+<dt>::</dt>
+<dd><ul class="first simple">
+<li>1 2 3</li>
+</ul>
+<p class="last">1| | <a href="#id1"><span class="problematic" id="id2">|O|</span></a>
+2| | <a href="#id3"><span class="problematic" id="id4">|X|</span></a>
 3| | | |</p>
-</div></blockquote>
+</dd>
+</dl>
 <p>when call <cite>self.rotate_board(270, ‘angle’)</cite></p>
 <div class="toctree-wrapper compound">
 </div>

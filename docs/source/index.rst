@@ -24,17 +24,19 @@ Chessboard
 ==========
 This is what the chessboard looks like:
 
-    1 2 3 4 5 6 7 8 9 A
-  1|X| | | | | | | | | |
-  2| |O| | | | | | | | |
-  3| | |X| | | | | | | |
-  4| | | |O| | | | | | |
-  5| | | | |X| | | | | |
-  6| | | | | |O| | | | |
-  7| | | | | | |X| | | |
-  8| | | | | | | |O| | |
-  9| | | | | | | | |X| |
-  A| | | | | | | | | |O|
+::
+
+      * 1 2 3 4 5 6 7 8 9 A
+      1|X| | | | | | | | | |
+      2| |O| | | | | | | | |
+      3| | |X| | | | | | | |
+      4| | | |O| | | | | | |
+      5| | | | |X| | | | | |
+      6| | | | | |O| | | | |
+      7| | | | | | |X| | | |
+      8| | | | | | | |O| | |
+      9| | | | | | | | |X| |
+      A| | | | | | | | | |O|
 
 ****
 Init
@@ -79,14 +81,16 @@ Some methods to operate the chessboard is listed
 
 * Rotate the chessboard *anticlockwise* for `angle` degree/radian (based on `unit`), using the center of the chessboard as the center of rotation, e.g.,  
 
-    1 2 3
+::
+  * 1 2 3
   1|O|X| |
   2| | | |
   3| | | |
 
 becomes  
 
-    1 2 3
+::
+  * 1 2 3
   1| | |O|
   2| | |X|
   3| | | |
