@@ -39,7 +39,8 @@ class Chessboard:
         self.pos_range = range(self.board_size)
         self.pos = [[0 for _ in self.pos_range] for _ in self.pos_range]
         self.check = {}
-        self._game_round = 0
+        self._game_round = 1
+        self.history = {}
         self.angle = [_*math.pi/4 for _ in range(DIR_NUM)]
         self.asc_range = list(range(ASC_ONE, ASC_ONE + min(MAX_NUM, self.board_size)))
         if self.board_size > MAX_NUM:
@@ -55,6 +56,13 @@ class Chessboard:
 
     def get_board(self):
         return self.pos
+
+    def undo(self, times=1):
+        if times >= self._game_round:
+            raise ValueError('Too many undos!')
+        else:
+            self._game_round = self._game_round - times
+            self.pos = self.history[self._game_round]
 
     def rotate_board(self, angle, unit='radian'):
         '''Rotate the chessboard for a specific angle,
@@ -101,23 +109,38 @@ class Chessboard:
         if isinstance(ch, str):
             ch = ord(ch)
         return ch - ASC_ONE if ch - ASC_ONE + 1 <= MAX_NUM else MAX_NUM + ch - ASC_A
+
+    def get_player(self):
+        return 2 - self._game_round % 2
     
-    def set_pos(self, x, y, user):
+    def set_pos(self, x, y, user=None, check=False):
         '''Set a chess'''
         if isinstance(x, str):
             x, y = self.asc2pos(x), self.asc2pos(y)
+        else:
+            x -= 1
+            y -= 1
+        if not user:
+            user = self.get_player()
         if x not in self.pos_range or y not in self.pos_range or user not in range(1, self.user_number + 1): 
             raise ValueError('Position or user value is out of range')
         elif self.pos[x][y] != 0:
             raise PositionError('There is a chess piece on that position')
         else:
+            self.history[self._game_round] = copy.deepcopy(self.pos)
             self.pos[x][y] = user
-            return self.check_win_by_step(x, y, user)
+            if check:
+                return self.check_win_by_step(x, y, user)
+            else:
+                return None
 
     def set_pos_on_board_special(self, board, x, y, user, user_number=2):
         '''Set a chess based on a specific chessboard'''
         if isinstance(x, str):
             x, y = self.asc2pos(x), self.asc2pos(y)
+        else:
+            x -= 1
+            y -= 1
         board_size = len(board[0])
         if x not in range(board_size) or y not in range(board_size) or user not in range(1, user_number + 1): 
             raise ValueError('Position or user value is out of range')
@@ -144,6 +167,34 @@ class Chessboard:
         Border: 0 ~ self.board_size-1
         '''
         pass
+
+    def handle_input(self, input_str, user=None, check=False):
+        '''Transfer user input to valid chess position'''
+        input_str = input_str.replace(' ', '')
+        pos_str = input_str.split(',')
+        if not user:
+            user = self.get_player()
+        if (len(pos_str) != 2):
+            raise PositionError('Error number of coordinates or commands!')
+        if pos_str[0] == 'u':
+            try:
+                self.undo(int(pos_str[1]))
+            except ValueError as e:
+                raise e
+            else:
+                return None
+        x, y = pos_str
+        try:
+            result = self.set_pos(x, y, user, check)
+        except (ValueError, PositionError) as e:
+            raise e
+        else:
+            if check:
+                if not result:
+                    self._game_round += 1
+                return result
+            else:
+                return (x, y)
 
     def distance(self, piecex, piecey):
         '''Return the distance of chess piece X and Y (Chebyshev Distance)'''
@@ -191,17 +242,12 @@ class ChessboardExtension(Chessboard):
             #May return details
             return False
 
-#if __name__ == '__main__':
-#    cb = Chessboard(board_size=8, win=5)
-#    run = 1
-#    cb.print_pos()
-#    while True:
-#        pos = input('Input:')
-#        y, x = pos.split(',')
-#        a = cb.set_pos(x, y, run)
-#        if a:
-#            print('player {} wins'.format(run))
-#            sys.exit(0)
-#        cb.game_round = cb.game_round + 1
-#        run = 2 - (run + 1)%2
-#        cb.print_pos()
+if __name__ == '__main__':
+    cb = Chessboard(game_name='Gomoku')
+    while True:
+        pos = input('Input:')
+        a = cb.handle_input(pos, check=True)
+        if a:
+            print('player {} wins'.format(cb.get_player()))
+            sys.exit(0)
+        cb.print_pos()
