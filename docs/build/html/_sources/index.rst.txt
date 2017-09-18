@@ -4,12 +4,8 @@ chessboard's documentation!
 This is a chessboard display module for board games in command line.
 
 .. toctree::
-   :maxdepth: 1
-   :caption: Chessboard
-
-    Installation
-    Chessboard
-    Methods
+    :maxdepth: 0
+    :caption: Chessboard
 
 Indices and tables
 ******************
@@ -25,7 +21,7 @@ Installation
 The `chessboardCLI` package is available on `pypi`
 
 ::
-
+    
     pip install chessboardCLI
 
 Remember, the module name is `chessboard` and the package name is `chessboardCLI`.
