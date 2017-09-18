@@ -3,6 +3,7 @@ import copy
 import math
 import sys
 from itertools import combinations_with_replacement as comb
+from colorline import cprint
 
 ASC_ONE = ord('1')
 ASC_A = ord('A')
@@ -84,10 +85,11 @@ class Chessboard:
             new_pos[xt][yt] = self.pos[x][y]
         return new_pos
 
-    def print_pos(self, pos=None):
+    def print_pos(self, coordinates, pos=None):
         '''Print the chessboard'''
         if not pos:
             pos = self.pos
+        print(coordinates)
         self.graph = [list(map(self._transform, pos[i])) for i in self.pos_range]
         xaxis = ' '.join([chr(ASC_ONE + _) for _ in range(min(self.board_size, MAX_NUM))])
         if (self.board_size > MAX_NUM):
@@ -95,15 +97,32 @@ class Chessboard:
             xaxis += ' '.join([chr(ASC_A + _ - MAX_NUM) for _ in range(MAX_NUM, self.board_size)])
         print('  ', end='')
         print(xaxis)
-        for i in range(0, self.board_size):
+        for i in range(self.board_size):
             out = '|'.join(self.graph[i])
             if i < MAX_NUM:
                 print(chr(i + ASC_ONE), end='')
             else:
                 print(chr(i - MAX_NUM + ASC_A), end='')
             print('|', end='')
-            print(out, end='')
-            print('|')
+            #Colorful print
+            if coordinates[0] == i:
+                for j in range(self.board_size):
+                    if j == coordinates[1]:
+                        new_print = cprint
+                        params = {
+                            'color': 'r',
+                            'bcolor': 'w',
+                        }
+                    else:
+                        new_print = print
+                        params = {}
+                    new_print(self._transform(pos[i][j]), end='', **params)
+                    print('|', end='') 
+                else:
+                    print()
+            else:
+                print(out, end='')
+                print('|')
 
     def asc2pos(self, ch):
         if isinstance(ch, str):
@@ -130,9 +149,11 @@ class Chessboard:
             self.history[self._game_round] = copy.deepcopy(self.pos)
             self.pos[x][y] = user
             if check:
-                return self.check_win_by_step(x, y, user)
-            else:
-                return None
+                winning = self.check_win_by_step(x, y, user)
+                if winning is True:
+                    return winning
+            self._game_round += 1
+            return (x, y)
 
     def set_pos_on_board_special(self, board, x, y, user, user_number=2):
         '''Set a chess based on a specific chessboard'''
@@ -189,12 +210,7 @@ class Chessboard:
         except (ValueError, PositionError) as e:
             raise e
         else:
-            if check:
-                if not result:
-                    self._game_round += 1
-                return result
-            else:
-                return (x, y)
+            return result
 
     def distance(self, piecex, piecey):
         '''Return the distance of chess piece X and Y (Chebyshev Distance)'''
@@ -227,7 +243,7 @@ class Chessboard:
                 else:
                     radius += 1
         else:
-            return None
+            return (x, y)
 
 class ChessboardExtension(Chessboard):
     '''Provide extended methods for Class Chessboard'''
@@ -247,7 +263,7 @@ if __name__ == '__main__':
     while True:
         pos = input('Input:')
         a = cb.handle_input(pos, check=True)
-        if a:
+        if a is True:
             print('player {} wins'.format(cb.get_player()))
             sys.exit(0)
-        cb.print_pos()
+        cb.print_pos(coordinates=a)

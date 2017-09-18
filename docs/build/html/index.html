@@ -24,6 +24,7 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Chessboard" href="main/main.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -43,6 +44,12 @@
 <h1>chessboard’s documentation!<a class="headerlink" href="#chessboard-s-documentation" title="Permalink to this headline">¶</a></h1>
 <p>This is a chessboard display module for board games in command line.</p>
 <div class="toctree-wrapper compound">
+<p class="caption"><span class="caption-text">Chessboard</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="main/main.html">Chessboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main/main.html#init">Init</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main/main.html#methods">Methods</a></li>
+</ul>
 </div>
 <div class="section" id="indices-and-tables">
 <h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
@@ -59,99 +66,7 @@
 </pre></div>
 </div>
 <p>Remember, the module name is <cite>chessboard</cite> and the package name is <cite>chessboardCLI</cite>.</p>
-<p>Current Version: 1.0.9</p>
-</div>
-<div class="section" id="chessboard">
-<h2>Chessboard<a class="headerlink" href="#chessboard" title="Permalink to this headline">¶</a></h2>
-<p>This is what the chessboard looks like:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="n">A</span>
-<span class="mi">1</span><span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
-<span class="mi">2</span><span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
-<span class="mi">3</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
-<span class="mi">4</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
-<span class="mi">5</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
-<span class="mi">6</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
-<span class="mi">7</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
-<span class="mi">8</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
-<span class="mi">9</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span>
-<span class="n">A</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span>
-</pre></div>
-</div>
-</div>
-<div class="section" id="init">
-<h2>Init<a class="headerlink" href="#init" title="Permalink to this headline">¶</a></h2>
-<p>The Chessboard class</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">chessboard</span><span class="o">.</span><span class="n">Chessboard</span><span class="p">(</span><span class="n">board_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ch_off</span><span class="o">=</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">ch_def</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">ch_blank</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><cite>board_size</cite> defines the size of the chessboard</li>
-<li><cite>win</cite> defines the number of chess pieces to win in a line</li>
-<li><cite>ch_off</cite> defines the character of offensive player</li>
-<li><cite>ch_def</cite> defines the character of defensive player</li>
-<li><cite>ch_black</cite> defines the character of default place</li>
-<li><cite>user_number</cite> defines the number of players (No use)</li>
-</ul>
-</div>
-<div class="section" id="methods">
-<h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
-<p>Some methods to operate the chessboard is listed</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">set_pos</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li><cite>x, y</cite> are the coordinates of chess.</li>
-<li><cite>user</cite> is the player index.</li>
-</ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">set_pos_on_board_special</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li>Set a chess on a specific coodinate (x, y) for user on board</li>
-<li>If <cite>board</cite> is given, put on the <cite>board</cite>, else, put on the <cite>self.pos</cite></li>
-</ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">print_pos</span><span class="p">(</span><span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li>Print the chessboard, if <cite>pos</cite> is given, print <cite>pos</cite>, else, print <cite>self.pos</cite></li>
-</ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">rotate_board</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;radian&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li>Rotate the chessboard <em>anticlockwise</em> for <cite>angle</cite> degree/radian (based on <cite>unit</cite>), using the center of the chessboard as the center of rotation, e.g.,</li>
-</ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span>
-<span class="mi">1</span><span class="o">|</span><span class="n">O</span><span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span>
-<span class="mi">2</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
-<span class="mi">3</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
-</pre></div>
-</div>
-<p>becomes</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span>
-<span class="mi">1</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span>
-<span class="mi">2</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span>
-<span class="mi">3</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
-</pre></div>
-</div>
-<p>when call <cite>self.rotate_board(270, ‘angle’)</cite></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">handle_input</span><span class="p">(</span><span class="n">input_str</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li>Handle the input of user, can be <em>coordinates</em> or <em>commands</em>.</li>
-<li><cite>input_str</cite> The input string.</li>
-<li><cite>user</cite> The player index, can be calculated automatically.</li>
-<li><cite>check</cite> Whether to check winner.</li>
-</ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">undo</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li>Undo</li>
-<li><cite>times</cite> Undo times, default 1</li>
-</ul>
+<p>Current Version: 1.0.10</p>
 </div>
 </div>
 
@@ -171,11 +86,18 @@
 
 
 <h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Chessboard</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="main/main.html">Chessboard</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main/main.html#init">Init</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main/main.html#methods">Methods</a></li>
+</ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
+      <li>Next: <a href="main/main.html" title="next chapter">Chessboard</a></li>
   </ul></li>
 </ul>
 </div>
