@@ -8,3 +8,6 @@ Add UNDO and Input handle
 
 ## chessboard 1.0.10
 Add Colorful output, package `colorline` is required
+
+## chessboard 1.0.11
+Add module-level function `play_game`

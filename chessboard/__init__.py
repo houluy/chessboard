@@ -15,28 +15,15 @@ class PositionError(Exception):
     pass
 
 class Chessboard:
-    def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None):
+    def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2):
         #self.step = 0 #Game step
         self.seq  = 1 #1 means offensive pos, while 2 means defensive pos 
         self.character = {1:ch_off, 2:ch_def, 0:ch_blank}
         self.seq_dict = {}
         self.graph = []
-        if game_name == 'Gomoku':
-            self.board_size = 15
-            self.win = 5
-            self.user_number = 2
-        elif game_name == 'tictactoe':
-            self.board_size = 3
-            self.win = 3
-            self.user_number = 2
-        elif game_name == 'fourinarow':
-            self.board_size = 7
-            self.win = 4
-            self.user_number = 2
-        else:
-            self.board_size = board_size
-            self.win = win
-            self.user_number = user_number
+        self.board_size = board_size
+        self.win = win
+        self.user_number = user_number
         self.pos_range = range(self.board_size)
         self.pos = [[0 for _ in self.pos_range] for _ in self.pos_range]
         self.check = {}
@@ -64,32 +51,11 @@ class Chessboard:
         else:
             self._game_round = self._game_round - times
             self.pos = self.history[self._game_round]
-
-    def rotate_board(self, angle, unit='radian'):
-        '''Rotate the chessboard for a specific angle,
-        angle must be integral multiple of pi/2(90 degree)'''
-        if unit == 'angle':
-            angle = angle*math.pi/180
-
-        angle %= 2*math.pi
-        if angle not in [0, math.pi/2, math.pi, math.pi*3/2]:
-            raise ValueError('Angle must be integral multiple of pi/2(90 degree)')
-
-        new_pos = [[0 for _ in self.pos_range] for _ in self.pos_range]
-        cos_ang = math.cos(angle)
-        sin_ang = math.sin(angle)
-        center = (self.board_size - 1)/2
-        for x, y in comb(self.pos_range, 2):
-            xt = int((x - center)*cos_ang - (y - center)*sin_ang + center)
-            yt = int((x - center)*sin_ang + (y - center)*cos_ang + center)
-            new_pos[xt][yt] = self.pos[x][y]
-        return new_pos
-
-    def print_pos(self, coordinates, pos=None):
+    
+    def print_pos(self, coordinates=None, pos=None):
         '''Print the chessboard'''
         if not pos:
             pos = self.pos
-        print(coordinates)
         self.graph = [list(map(self._transform, pos[i])) for i in self.pos_range]
         xaxis = ' '.join([chr(ASC_ONE + _) for _ in range(min(self.board_size, MAX_NUM))])
         if (self.board_size > MAX_NUM):
@@ -105,7 +71,7 @@ class Chessboard:
                 print(chr(i - MAX_NUM + ASC_A), end='')
             print('|', end='')
             #Colorful print
-            if coordinates[0] == i:
+            if coordinates and coordinates[0] == i:
                 for j in range(self.board_size):
                     if j == coordinates[1]:
                         new_print = cprint
@@ -189,14 +155,12 @@ class Chessboard:
         '''
         pass
 
-    def handle_input(self, input_str, user=None, check=False):
+    def handle_input(self, input_str, place=True, user=None, check=False):
         '''Transfer user input to valid chess position'''
         input_str = input_str.replace(' ', '')
         pos_str = input_str.split(',')
         if not user:
             user = self.get_player()
-        if (len(pos_str) != 2):
-            raise PositionError('Error number of coordinates or commands!')
         if pos_str[0] == 'u':
             try:
                 self.undo(int(pos_str[1]))
@@ -204,13 +168,18 @@ class Chessboard:
                 raise e
             else:
                 return None
-        x, y = pos_str
-        try:
-            result = self.set_pos(x, y, user, check)
-        except (ValueError, PositionError) as e:
-            raise e
+        if place:
+            if (len(pos_str) != 2):
+                raise PositionError('Error number of coordinates or commands!')
+            x, y = pos_str
+            try:
+                result = self.set_pos(x, y, user, check)
+            except (ValueError, PositionError) as e:
+                raise e
+            else:
+                return result
         else:
-            return result
+            return pos_str
 
     def distance(self, piecex, piecey):
         '''Return the distance of chess piece X and Y (Chebyshev Distance)'''
@@ -245,6 +214,14 @@ class Chessboard:
         else:
             return (x, y)
 
+    def get_not_num(self, seq, num=0):
+        '''Find the index of first non num element'''
+        ind = next((i for i, x in enumerate(seq) if x != num), None)
+        if ind == None:
+            return self.board_size
+        else:
+            return ind
+
 class ChessboardExtension(Chessboard):
     '''Provide extended methods for Class Chessboard'''
     def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None):
@@ -258,12 +235,70 @@ class ChessboardExtension(Chessboard):
             #May return details
             return False
 
-if __name__ == '__main__':
-    cb = Chessboard(game_name='Gomoku')
+    def rotate_board(self, angle, unit='radian'):
+        '''Rotate the chessboard for a specific angle,
+        angle must be integral multiple of pi/2(90 degree)'''
+        if unit == 'angle':
+            angle = angle*math.pi/180
+
+        angle %= 2*math.pi
+        if angle not in [0, math.pi/2, math.pi, math.pi*3/2]:
+            raise ValueError('Angle must be integral multiple of pi/2(90 degree)')
+
+        new_pos = [[0 for _ in self.pos_range] for _ in self.pos_range]
+        cos_ang = math.cos(angle)
+        sin_ang = math.sin(angle)
+        center = (self.board_size - 1)/2
+        for x, y in comb(self.pos_range, 2):
+            xt = int((x - center)*cos_ang - (y - center)*sin_ang + center)
+            yt = int((x - center)*sin_ang + (y - center)*cos_ang + center)
+            new_pos[xt][yt] = self.pos[x][y]
+        return new_pos
+
+def play_game(game_name='tictactoe'):
+    if game_name == 'Gomoku':
+        board_size = 15
+        win = 5
+    elif game_name == 'tictactoe':
+        board_size = 3
+        win = 3
+    elif game_name == 'fourinarow':
+        board_size = 7
+        win = 4
+    else:
+        raise ValueError('Unsupported game, please use original Chessboard class!')
+
+    board = Chessboard(board_size=board_size, win=win)
+    board.print_pos()
     while True:
-        pos = input('Input:')
-        a = cb.handle_input(pos, check=True)
+        ipt = input('Input:')
+        if game_name != 'fourinarow':
+            try:
+                a = board.handle_input(ipt, check=True)
+            except Exception as e:
+                print(e)
+                board.print_pos()
+                continue
+        else:
+            a = board.handle_input(ipt, place=False)
+            column_num = int(a[0])
+            current_col = [_[column_num - 1] for _ in board.pos]
+            current_row = board.get_not_num(current_col)
+            if current_row == 0:
+                print('No place to put your chess!')
+                continue
+            else:
+                try:
+                    a = board.set_pos(x=current_row, y=column_num, check=True)
+                except (PositionError, Exception) as e:
+                    print(e)
+                    continue
         if a is True:
-            print('player {} wins'.format(cb.get_player()))
+            cprint('player {} wins'.format(board.get_player()), color='y', bcolor='b')
+            board.print_pos()
             sys.exit(0)
-        cb.print_pos(coordinates=a)
+        board.print_pos(coordinates=a)
+
+if __name__ == '__main__':
+    game_name = input('What do you want to play:')
+    play_game(game_name=game_name)
