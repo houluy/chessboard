@@ -54,9 +54,10 @@ Some methods to operate the chessboard is listed
 
 ::
 
-    self.print_pos(pos=None)
+    self.print_pos(coordinates, pos=None)
 
 * Print the chessboard, if `pos` is given, print `pos`, else, print `self.pos`
+* `coordinates` is the current coordinates of chess, this one will be print in specific color
 
 ::
 
