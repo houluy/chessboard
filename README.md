@@ -13,7 +13,7 @@ The full docs is provided [here](http://chessboard-interface.readthedocs.io/).
 ##### Useful functions:
 1. Get the sign of an integer:
 `sign = lambda a: (a>0) - (a<0)`
-2. In Python 3.4, `math.cos(math.pi/2) = xxx*e(-17)`, an integer beyond **zero**  
+2. In Python 3.4, `math.cos(math.pi/2) = xxx*e(-17)`, a value beyond **zero**  
 3. Coodinate rotation formula (ANTICLOCKWISE):  
 ```
 tx = (x - x0)*cos(theta) - (y - y0)*sin(theta) + x0  

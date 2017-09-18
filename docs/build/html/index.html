@@ -5,7 +5,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>chessboardM’s documentation! &#8212; chessboard 1.0.0 documentation</title>
+    <title>chessboard’s documentation! &#8212; chessboard 1.0.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript">
@@ -39,9 +39,9 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="chessboardm-s-documentation">
-<h1>chessboardM’s documentation!<a class="headerlink" href="#chessboardm-s-documentation" title="Permalink to this headline">¶</a></h1>
-<p>This is a chessboard display module for board games in CLI.</p>
+  <div class="section" id="chessboard-s-documentation">
+<h1>chessboard’s documentation!<a class="headerlink" href="#chessboard-s-documentation" title="Permalink to this headline">¶</a></h1>
+<p>This is a chessboard display module for board games in command line.</p>
 <div class="section" id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
 <p>The <cite>chessboardCLI</cite> package is available on <cite>pypi</cite>:</p>
@@ -49,6 +49,7 @@
 </pre></div>
 </div>
 <p>Remember, the module name is <cite>chessboard</cite> and the package name is <cite>chessboardCLI</cite>.</p>
+<p>Current Version: 1.0.9</p>
 </div>
 <div class="section" id="chessboard">
 <h2>Chessboard<a class="headerlink" href="#chessboard" title="Permalink to this headline">¶</a></h2>
@@ -84,32 +85,36 @@
 </div>
 <div class="section" id="methods">
 <h2>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h2>
-<p>Some methods to operate the chessboard is listed:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">set_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span>
-</pre></div>
-</div>
-<ul>
-<li><p class="first"><cite>x, y</cite> are the coordinates of chess</p>
-</li>
-<li><p class="first"><cite>user</cite> is the order of player:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">set_pos_on_board_special</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">user</span><span class="p">,</span> <span class="n">board</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-</li>
-<li><p class="first">Set a chess on a specific coodinate (x, y) for user on board</p>
-</li>
-<li><p class="first">If <cite>board</cite> is given, put on the <cite>board</cite>, else, put on the <cite>self.pos</cite>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">print_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-</pre></div>
-</div>
-</li>
-<li><p class="first">Print the chessboard, if <cite>pos</cite> is given, print <cite>pos</cite>, else, print <cite>self.pos</cite>:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">rotate_board</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">angle</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;radian&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-</li>
-<li><p class="first">Rotate the chessboard <em>anticlockwise</em> for <cite>angle</cite> degree/radian (based on <cite>unit</cite>), using the center of the chessboard as the center of rotation, e.g.,</p>
-</li>
+<p>Some methods to operate the chessboard is listed</p>
+<dl class="docutils">
+<dt>::</dt>
+<dd>self.set_pos(x, y, user=None)</dd>
+</dl>
+<ul class="simple">
+<li><cite>x, y</cite> are the coordinates of chess.</li>
+<li><cite>user</cite> is the player index.</li>
+</ul>
+<dl class="docutils">
+<dt>::</dt>
+<dd>self.set_pos_on_board_special(x, y, user=None, board=None, user_number=2)</dd>
+</dl>
+<ul class="simple">
+<li>Set a chess on a specific coodinate (x, y) for user on board</li>
+<li>If <cite>board</cite> is given, put on the <cite>board</cite>, else, put on the <cite>self.pos</cite></li>
+</ul>
+<dl class="docutils">
+<dt>::</dt>
+<dd>self.print_pos(pos=None)</dd>
+</dl>
+<ul class="simple">
+<li>Print the chessboard, if <cite>pos</cite> is given, print <cite>pos</cite>, else, print <cite>self.pos</cite></li>
+</ul>
+<dl class="docutils">
+<dt>::</dt>
+<dd>self.rotate_board(angle, unit=’radian’)</dd>
+</dl>
+<ul class="simple">
+<li>Rotate the chessboard <em>anticlockwise</em> for <cite>angle</cite> degree/radian (based on <cite>unit</cite>), using the center of the chessboard as the center of rotation, e.g.,</li>
 </ul>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span>
 <span class="mi">1</span><span class="o">|</span><span class="n">O</span><span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span>
@@ -125,6 +130,24 @@
 </pre></div>
 </div>
 <p>when call <cite>self.rotate_board(270, ‘angle’)</cite></p>
+<dl class="docutils">
+<dt>::</dt>
+<dd>self.handle_input(input_str, user=None, check=False)</dd>
+</dl>
+<ul class="simple">
+<li>Handle the input of user, can be <em>coordinates</em> or <em>commands</em>.</li>
+<li><cite>input_str</cite> The input string.</li>
+<li><cite>user</cite> The player index, can be calculated automatically.</li>
+<li><cite>check</cite> Whether to check winner.</li>
+</ul>
+<dl class="docutils">
+<dt>::</dt>
+<dd>self.undo(times=1)</dd>
+</dl>
+<ul class="simple">
+<li>Undo</li>
+<li><cite>times</cite> Undo times, default 1</li>
+</ul>
 </div>
 </div>
 

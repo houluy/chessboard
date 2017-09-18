@@ -1,7 +1,7 @@
-chessboardM's documentation!
+chessboard's documentation!
 ===========================
 
-This is a chessboard display module for board games in CLI.
+This is a chessboard display module for board games in command line.
 
 Installation
 ************
@@ -11,6 +11,8 @@ The `chessboardCLI` package is available on `pypi`::
     pip install chessboardCLI
 
 Remember, the module name is `chessboard` and the package name is `chessboardCLI`.
+
+Current Version: 1.0.9
 
 Chessboard
 **********
@@ -48,25 +50,29 @@ The Chessboard class::
 Methods
 *******
 
-Some methods to operate the chessboard is listed::
+Some methods to operate the chessboard is listed
 
-    set_pos(self, x, y, user)
+::
+    self.set_pos(x, y, user=None)
 
-* `x, y` are the coordinates of chess
-* `user` is the order of player::
+* `x, y` are the coordinates of chess.
+* `user` is the player index.
 
-    set_pos_on_board_special(self, x, y, user, board=None, user_number=2)
+::
+    self.set_pos_on_board_special(x, y, user=None, board=None, user_number=2)
 
-* Set a chess on a specific coodinate (x, y) for user on board  
-* If `board` is given, put on the `board`, else, put on the `self.pos`::
+* Set a chess on a specific coodinate (x, y) for user on board
+* If `board` is given, put on the `board`, else, put on the `self.pos`
 
-    print_pos(self, pos=None)
+::
+    self.print_pos(pos=None)
 
-* Print the chessboard, if `pos` is given, print `pos`, else, print `self.pos`::
-  
-    rotate_board(self, angle, unit='radian')
+* Print the chessboard, if `pos` is given, print `pos`, else, print `self.pos`
 
-* Rotate the chessboard *anticlockwise* for `angle` degree/radian (based on `unit`), using the center of the chessboard as the center of rotation, e.g.,  
+::
+    self.rotate_board(angle, unit='radian')
+
+* Rotate the chessboard *anticlockwise* for `angle` degree/radian (based on `unit`), using the center of the chessboard as the center of rotation, e.g.,
 
 ::
 
@@ -84,5 +90,19 @@ becomes
   2| | |X|
   3| | | |
 
-when call `self.rotate_board(270, 'angle')`  
+when call `self.rotate_board(270, 'angle')`
+
+::
+    self.handle_input(input_str, user=None, check=False)
+
+* Handle the input of user, can be *coordinates* or *commands*.
+* `input_str` The input string.
+* `user` The player index, can be calculated automatically.
+* `check` Whether to check winner.
+
+::
+    self.undo(times=1)
+
+* Undo 
+* `times` Undo times, default 1
 
