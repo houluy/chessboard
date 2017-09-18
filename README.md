@@ -8,7 +8,7 @@ pip install chessboardCLI
 
 to install it.  
 
-The full docs is provided [here](http://chessboard-interface.readthedocs.io/).
+The full docs is provided [here](http://chessboardm.readthedocs.io/).
 
 ##### Useful functions:
 1. Get the sign of an integer:
