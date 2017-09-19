@@ -6,8 +6,14 @@ from itertools import combinations_with_replacement as comb
 from colorline import cprint
 
 ASC_ONE = ord('1')
+ASC_NINE = ord('9')
 ASC_A = ord('A')
+ASC_Z = ord('Z')
+ASC_a = ord('a')
+ASC_z = ord('z')
 MAX_NUM = 9
+MAX_CAP = MAX_NUM + 26
+MAX_LOW = MAX_CAP + 26
 DIR_NUM = 4
 sign = lambda a: (a > 10**(-10)) - (a < -10**(-10))
 
@@ -22,7 +28,11 @@ class Chessboard:
         self.seq_dict = {}
         self.graph = []
         self.board_size = board_size
+        if board_size > MAX_LOW:
+            raise ValueError('Board size has reached its limit ({})!'.format(MAX_LOW))
         self.win = win
+        if win > board_size:
+            raise ValueError('Winning number exceeds the board size!')
         self.user_number = user_number
         self.pos_range = range(self.board_size)
         self.pos = [[0 for _ in self.pos_range] for _ in self.pos_range]
@@ -30,9 +40,13 @@ class Chessboard:
         self._game_round = 1
         self.history = {}
         self.angle = [_*math.pi/4 for _ in range(DIR_NUM)]
-        self.asc_range = list(range(ASC_ONE, ASC_ONE + min(MAX_NUM, self.board_size)))
-        if self.board_size > MAX_NUM:
-            self.asc_range += list(range(ASC_A, ASC_A + self.board_size - MAX_NUM))
+        #self.asc_range = list(range(ASC_ONE, ASC_ONE + min(MAX_NUM, self.board_size)))
+        #if MAX_NUM < self.board_size <= MAX_CAP:
+        #    self.asc_range += list(range(ASC_A, ASC_A + self.board_size - MAX_NUM))
+        #elif MAX_CAP < self.board_size <= MAX_LOW:
+        #    self.asc_range += list(range(ASC_a, ASC_a + self.board_size - MAX_CAP))
+        #else:
+        #    raise ValueError('Out of scope!')
 
     @property
     def game_round(self):
@@ -60,15 +74,20 @@ class Chessboard:
         xaxis = ' '.join([chr(ASC_ONE + _) for _ in range(min(self.board_size, MAX_NUM))])
         if (self.board_size > MAX_NUM):
             xaxis += ' '
-            xaxis += ' '.join([chr(ASC_A + _ - MAX_NUM) for _ in range(MAX_NUM, self.board_size)])
+            xaxis += ' '.join([chr(ASC_A + _ - MAX_NUM) for _ in range(MAX_NUM, min(self.board_size, MAX_CAP))])
+        if (self.board_size > MAX_CAP):
+            xaxis += ' '
+            xaxis += ' '.join([chr(ASC_a + _ - MAX_CAP) for _ in range(MAX_CAP, self.board_size)])
         print('  ', end='')
         print(xaxis)
         for i in range(self.board_size):
             out = '|'.join(self.graph[i])
             if i < MAX_NUM:
                 print(chr(i + ASC_ONE), end='')
-            else:
+            elif MAX_NUM <= i < MAX_CAP:
                 print(chr(i - MAX_NUM + ASC_A), end='')
+            elif MAX_CAP <= i < MAX_LOW:
+                print(chr(i - MAX_CAP + ASC_a), end='')
             print('|', end='')
             #Colorful print
             if coordinates and coordinates[0] == i:
@@ -93,7 +112,15 @@ class Chessboard:
     def asc2pos(self, ch):
         if isinstance(ch, str):
             ch = ord(ch)
-        return ch - ASC_ONE if ch - ASC_ONE + 1 <= MAX_NUM else MAX_NUM + ch - ASC_A
+        #to_cap = ch - ASC_ONE + 1
+        if ASC_ONE <= ch <= ASC_NINE:
+            return ch - ASC_ONE
+        elif ASC_A <= to_cap <= ASC_Z:
+            return ch - ASC_A + MAX_NUM
+        elif ASC_a <= to_cap <= ASC_z:
+            return ch - ASC_a + MAX_CAP
+        else:
+            return ch
 
     def get_player(self):
         return 2 - self._game_round % 2
@@ -256,19 +283,30 @@ class ChessboardExtension(Chessboard):
         return new_pos
 
 def play_game(game_name='tictactoe'):
-    if game_name == 'Gomoku':
-        board_size = 15
-        win = 5
-    elif game_name == 'tictactoe':
-        board_size = 3
-        win = 3
-    elif game_name == 'fourinarow':
-        board_size = 7
-        win = 4
-    else:
-        raise ValueError('Unsupported game, please use original Chessboard class!')
+    while True:
+        if game_name == 'Gomoku':
+            board_size = 15
+            win = 5
+        elif game_name == 'tictactoe':
+            board_size = 3
+            win = 3
+        elif game_name == 'fourinarow':
+            board_size = 7
+            win = 4
+        elif game_name == 'normal':
+            board_size = int(input('Board size: '))
+            win = int(input('Winning chess number: '))
+        else:
+            raise ValueError('Unsupported game, please use original Chessboard class!')
 
-    board = Chessboard(board_size=board_size, win=win)
+        try:
+            board = Chessboard(board_size=board_size, win=win)
+        except ValueError as e:
+            cprint(e)
+            continue
+        else:
+            break
+
     board.print_pos()
     while True:
         ipt = input('Input:')
@@ -276,7 +314,7 @@ def play_game(game_name='tictactoe'):
             try:
                 a = board.handle_input(ipt, check=True)
             except Exception as e:
-                print(e)
+                cprint(e, color='g')
                 board.print_pos()
                 continue
         else:
@@ -285,13 +323,13 @@ def play_game(game_name='tictactoe'):
             current_col = [_[column_num - 1] for _ in board.pos]
             current_row = board.get_not_num(current_col)
             if current_row == 0:
-                print('No place to put your chess!')
+                cprint('No place to put your chess!', color='g')
                 continue
             else:
                 try:
                     a = board.set_pos(x=current_row, y=column_num, check=True)
                 except (PositionError, Exception) as e:
-                    print(e)
+                    cprint(e, color='g')
                     continue
         if a is True:
             cprint('player {} wins'.format(board.get_player()), color='y', bcolor='b')
