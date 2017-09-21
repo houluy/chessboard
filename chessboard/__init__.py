@@ -21,17 +21,32 @@ class PositionError(Exception):
     pass
 
 class Chessboard:
-    def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2):
+    def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None):
         #self.step = 0 #Game step
         self.seq  = 1 #1 means offensive pos, while 2 means defensive pos 
         self.character = {1:ch_off, 2:ch_def, 0:ch_blank}
         self.seq_dict = {}
         self.graph = []
         self.board_size = board_size
-        if board_size > MAX_LOW:
-            raise ValueError('Board size has reached its limit ({})!'.format(MAX_LOW))
         self.win = win
-        if win > board_size:
+        if game_name:
+            if game_name == 'Gomoku':
+                self.board_size = 15
+                self.win = 5
+            elif game_name == 'tictactoe':
+                self.board_size = 3
+                self.win = 3
+            elif game_name == 'fourinarow':
+                self.board_size = 7
+                self.win = 4
+            elif game_name == 'normal':
+                self.board_size = int(input('Board size: '))
+                self.win = int(input('Winning chess number: '))
+            else:
+                raise ValueError('Unsupported game, please use original Chessboard class!')
+        if self.board_size > MAX_LOW:
+            raise ValueError('Board size has reached its limit ({})!'.format(MAX_LOW))
+        if self.win > self.board_size:
             raise ValueError('Winning number exceeds the board size!')
         self.user_number = user_number
         self.pos_range = range(self.board_size)
@@ -282,25 +297,11 @@ class ChessboardExtension(Chessboard):
             new_pos[xt][yt] = self.pos[x][y]
         return new_pos
 
-def play_game(game_name='tictactoe'):
+def play_game():
     while True:
-        if game_name == 'Gomoku':
-            board_size = 15
-            win = 5
-        elif game_name == 'tictactoe':
-            board_size = 3
-            win = 3
-        elif game_name == 'fourinarow':
-            board_size = 7
-            win = 4
-        elif game_name == 'normal':
-            board_size = int(input('Board size: '))
-            win = int(input('Winning chess number: '))
-        else:
-            raise ValueError('Unsupported game, please use original Chessboard class!')
-
+        game_name = input('Please input the game name: ')
         try:
-            board = Chessboard(board_size=board_size, win=win)
+            board = Chessboard(game_name=game_name)
         except ValueError as e:
             cprint(e)
             continue
@@ -338,5 +339,4 @@ def play_game(game_name='tictactoe'):
         board.print_pos(coordinates=a)
 
 if __name__ == '__main__':
-    game_name = input('What do you want to play:')
-    play_game(game_name=game_name)
+    play_game()

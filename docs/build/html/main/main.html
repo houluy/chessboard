@@ -60,7 +60,7 @@
 <div class="section" id="init">
 <h1>Init<a class="headerlink" href="#init" title="Permalink to this headline">¶</a></h1>
 <p>The Chessboard class</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">chessboard</span><span class="o">.</span><span class="n">Chessboard</span><span class="p">(</span><span class="n">board_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ch_off</span><span class="o">=</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">ch_def</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">ch_blank</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">chessboard</span><span class="o">.</span><span class="n">Chessboard</span><span class="p">(</span><span class="n">board_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ch_off</span><span class="o">=</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">ch_def</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">ch_blank</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">game_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -70,17 +70,19 @@
 <li><cite>ch_def</cite> defines the character of defensive player</li>
 <li><cite>ch_black</cite> defines the character of default place</li>
 <li><cite>user_number</cite> defines the number of players (No use)</li>
+<li><cite>game_name</cite> defines the built-in game_name (default None)</li>
 </ul>
 </div>
-<div class="section" id="methods">
-<h1>Methods<a class="headerlink" href="#methods" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="instance-methods">
+<h1>Instance Methods<a class="headerlink" href="#instance-methods" title="Permalink to this headline">¶</a></h1>
 <p>Some methods to operate the chessboard is listed</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">set_pos</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">set_pos</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li><cite>x, y</cite> are the coordinates of chess.</li>
 <li><cite>user</cite> is the player index.</li>
+<li><cite>check</cite> whether to check winner after this step</li>
 </ul>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">set_pos_on_board_special</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 </pre></div>
@@ -133,6 +135,22 @@
 <li><cite>times</cite> Undo times, default 1</li>
 </ul>
 </div>
+<div class="section" id="module-level-method">
+<h1>Module-level Method<a class="headerlink" href="#module-level-method" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">play_game</span><span class="p">()</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Four kinds of board games are built-in.
+- <cite>fourinarow</cite>
+- <cite>Gomoku</cite>
+- <cite>tictactoe</cite>
+- <cite>normal</cite></li>
+<li>When <cite>normal</cite>, players are asked to input the size of the board and the number of winnings.
+Max size: 61
+Max winning: &lt; size</li>
+</ul>
+</div>
 
 
           </div>
@@ -154,7 +172,8 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Chessboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#init">Init</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#methods">Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#instance-methods">Instance Methods</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#module-level-method">Module-level Method</a></li>
 </ul>
 
 <div class="relations">

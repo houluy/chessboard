@@ -14,3 +14,6 @@ Add module-level function `play_game`
 
 ## chessboard 1.0.12
 Bug fix and Exception handles
+
+## chessboard 1.0.14
+Bug fix

@@ -24,7 +24,7 @@ The Chessboard class
 
 ::
 
-    chessboard.Chessboard(board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2)
+    chessboard.Chessboard(board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None)
 
 * `board_size` defines the size of the chessboard
 * `win` defines the number of chess pieces to win in a line
@@ -32,18 +32,20 @@ The Chessboard class
 * `ch_def` defines the character of defensive player
 * `ch_black` defines the character of default place
 * `user_number` defines the number of players (No use)
+* `game_name` defines the built-in game_name (default None)
 
-Methods
-*******
+Instance Methods
+****************
 
 Some methods to operate the chessboard is listed
 
 ::
 
-    self.set_pos(x, y, user=None)
+    self.set_pos(x, y, user=None, check=True)
 
 * `x, y` are the coordinates of chess.
 * `user` is the player index.
+* `check` whether to check winner after this step
 
 ::
 
@@ -99,4 +101,18 @@ when call `self.rotate_board(270, 'angle')`
 * Undo 
 * `times` Undo times, default 1
 
+Module-level Method
+*******************
 
+::
+
+    play_game()
+
+* Four kinds of board games are built-in.
+  - `fourinarow`
+  - `Gomoku`
+  - `tictactoe`
+  - `normal`
+* When `normal`, players are asked to input the size of the board and the number of winnings.
+  Max size: 61
+  Max winning: < size

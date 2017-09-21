@@ -7,7 +7,7 @@ here = path.abspath(path.dirname(__file__))
 
 setup(
     name='chessboardCLI',
-    version='1.0.12',
+    version='1.0.14',
     description='Chessboard generator in command line',
     url='https://github.com/houluy/chessboard',
     author='Houlu',
