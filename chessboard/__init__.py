@@ -130,9 +130,9 @@ class Chessboard:
         #to_cap = ch - ASC_ONE + 1
         if ASC_ONE <= ch <= ASC_NINE:
             return ch - ASC_ONE
-        elif ASC_A <= to_cap <= ASC_Z:
+        elif ASC_A <= ch <= ASC_Z:
             return ch - ASC_A + MAX_NUM
-        elif ASC_a <= to_cap <= ASC_z:
+        elif ASC_a <= ch <= ASC_z:
             return ch - ASC_a + MAX_CAP
         else:
             return ch
@@ -264,6 +264,13 @@ class Chessboard:
         else:
             return ind
 
+    def count_chess(self):
+        result = [0 for x in range(self.user_number)]
+        for i in self.pos:
+            for j in i:
+                result[j - 1] = result[j - 1] + 1 if j != 0 else result[j - 1]
+        return result
+
 class ChessboardExtension(Chessboard):
     '''Provide extended methods for Class Chessboard'''
     def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None):
@@ -320,6 +327,9 @@ def play_game():
                 continue
         else:
             a = board.handle_input(ipt, place=False)
+            if a is None:
+                board.print_pos()
+                continue
             column_num = int(a[0])
             current_col = [_[column_num - 1] for _ in board.pos]
             current_row = board.get_not_num(current_col)
@@ -337,6 +347,7 @@ def play_game():
             board.print_pos()
             sys.exit(0)
         board.print_pos(coordinates=a)
+        print(board.count_chess())
 
 if __name__ == '__main__':
     play_game()
