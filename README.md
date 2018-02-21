@@ -1,5 +1,5 @@
 # chessboard
-A chessboard module for board games in CLI  
+A chessboard module for board games in Linux command-line
 
 Use  
 ```

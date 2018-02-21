@@ -3,11 +3,13 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
+from chessboard import __version__
+
 here = path.abspath(path.dirname(__file__))
 
 setup(
     name='chessboardCLI',
-    version='1.0.23',
+    version=__version__,
     description='Chessboard generator in command line',
     url='https://github.com/houluy/chessboard',
     author='Houlu',
@@ -26,7 +28,7 @@ setup(
     keywords='chessboard',
     packages=['chessboard',],
     install_requires=[
-        'colorline',
+        'colorline>=1.0.3',
     ],
     python_requires='>=3',
 )

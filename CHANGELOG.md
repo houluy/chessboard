@@ -17,3 +17,6 @@ Bug fix and Exception handles
 
 ## chessboard 1.0.14
 Bug fix
+
+## chessboard 1.1.0
+Add color

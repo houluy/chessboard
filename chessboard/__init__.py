@@ -5,6 +5,8 @@ import sys
 from itertools import combinations_with_replacement as comb
 from colorline import cprint
 
+__version__ = '1.1.0'
+
 ASC_ONE = ord('1')
 ASC_NINE = ord('9')
 ASC_A = ord('A')
@@ -38,11 +40,13 @@ class Chessboard:
             elif game_name == 'fourinarow':
                 self.board_size = 7
                 self.win = 4
+            elif game_name == 'Reversi':
+                self.board_size = 8
             elif game_name == 'normal':
                 self.board_size = int(input('Board size: '))
                 self.win = int(input('Winning chess number: '))
             else:
-                raise ValueError('Unsupported game, please use original Chessboard class!')
+                raise ValueError('Unsupported game, please refer to docs!')
         elif pos:
             self.win = win
             if isinstance(pos, str):
@@ -71,6 +75,13 @@ class Chessboard:
 
         self.count_round()
         self.user_number = user_number
+        self.chess_number = [0 for x in range(self.user_number)]
+        if game_name == 'Reversi':
+            self.chess_number = [2, 2]
+            self.pos[3][3] = 1
+            self.pos[4][4] = 1
+            self.pos[3][4] = 2
+            self.pos[4][3] = 2
         self.check = {}
         self.history = {}
         self.angle = [_*math.pi/4 for _ in range(DIR_NUM)]
@@ -91,7 +102,7 @@ class Chessboard:
         return (i, j)
 
     def count_round(self):
-        self._game_round = 1
+        self._game_round = 0
         for ind_i, val_i in enumerate(self.pos):
             for ind_j, val_j in enumerate(val_i):
                 if val_j != 0:
@@ -308,8 +319,17 @@ class Chessboard:
 
 class ChessboardExtension(Chessboard):
     '''Provide extended methods for Class Chessboard'''
-    def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None):
-        super().__init__(board_size=board_size, win=win, ch_off=ch_off, ch_def=ch_def, ch_blank=ch_blank, user_number=user_number, game_name=game_name)
+    def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None, pos=None, nested=False):
+        super().__init__(
+            board_size=board_size,
+            win=win,
+            ch_off=ch_off,
+            ch_def=ch_def,
+            ch_blank=ch_blank,
+            user_number=user_number,
+            game_name=game_name,
+            pos=pos,
+            nested=nested)
 
     def compare_board(self, dst, src=None):
         '''Compare two chessboard'''
@@ -323,22 +343,21 @@ class ChessboardExtension(Chessboard):
             return False
 
     def diff_state(self, obj, cur=None):
-        assert isinstance(obj, list)
         if not cur:
             cur = self.tostate()
         assert len(obj) == len(cur)
 
         diff_pos = []
         for i, x in enumerate(cur):
-            if x != obj[i]:
+            if str(x) != str(obj[i]):
                 diff_pos.append(i)
         
         return diff_pos
 
     def coor_trans(self, two=None, one=None):
-        if two:
+        if two is not None:
             return two[0]*self.board_size + two[1] - 1
-        elif one:
+        elif one is not None:
             y = one%self.board_size
             x = (one - y)//self.board_size + 1
             return (x, y) 
@@ -381,59 +400,5 @@ class ChessboardExtension(Chessboard):
             pos = self.pos
         return [y for x in pos for y in x]
 
-def play_game():
-    while True:
-        game_name = input('Please input the game name: ')
-        try:
-            board = Chessboard(game_name=game_name)
-        except ValueError as e:
-            cprint(e)
-            continue
-        else:
-            break
-
-    board.print_pos()
-    while True:
-        try:
-            ipt = input('Input:')
-        except:
-            cprint('Input Error: try again.', color='g')
-            continue
-        if game_name != 'fourinarow':
-            try:
-                a = board.handle_input(ipt, check=True)
-            except Exception as e:
-                cprint(e, color='g')
-                board.print_pos()
-                continue
-        else:
-            a = board.handle_input(ipt, place=False)
-            if a is None:
-                board.print_pos()
-                continue
-            column_num = int(a[0])
-            current_col = [_[column_num - 1] for _ in board.pos]
-            current_row = board.get_not_num(current_col)
-            if current_row == 0:
-                cprint('No place to put your chess!', color='g')
-                continue
-            else:
-                try:
-                    a = board.set_pos(x=current_row, y=column_num, check=True)
-                except (PositionError, Exception) as e:
-                    cprint(e, color='g')
-                    continue
-        if a is True:
-            cprint('player {} wins'.format(board.get_player()), color='y', bcolor='b')
-            board.print_pos()
-            sys.exit(0)
-        board.print_pos(coordinates=a)
-        #print(str(board))
-
 if __name__ == '__main__':
-    #play_game()
-    board = ChessboardExtension()
-    d = board.diff_state(obj=[0,0,0,0,0,0,0,0,0])
-    print(d)
-    print(board.coor_trans(one=5))
-    #print(board.get_action())
+    play_game()
