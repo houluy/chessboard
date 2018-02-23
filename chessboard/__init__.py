@@ -260,10 +260,9 @@ class Chessboard:
         if self.pos[x][y] != 0:
             raise PositionError('There is a chess piece on that position')
 
-    def handle_input(self, input_str, place=True, user=None, check=False):
+    def handle_input(self, input_str, place=True, check=False):
         '''Transfer user input to valid chess position'''
-        if not user:
-            user = self.get_player()
+        user = self.get_player()
         if input_str[0] == 'u':
             try:
                 self.undo(int(input_str[1]))

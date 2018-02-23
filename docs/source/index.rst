@@ -27,4 +27,4 @@ The `chessboardCLI` package is available on `pypi`
 
 Remember, the module name is `chessboard` and the package name is `chessboardCLI`.
 
-Current Version: 1.0.10
+Current Version: 1.2.0

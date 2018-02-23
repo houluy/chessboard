@@ -4,20 +4,12 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Chessboard &#8212; chessboard 1.0.9 documentation</title>
+    <title>Chessboard &#8212; chessboard 1.2.0 documentation</title>
     <link rel="stylesheet" href="../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript">
-      var DOCUMENTATION_OPTIONS = {
-        URL_ROOT:    '../',
-        VERSION:     '1.0.9',
-        COLLAPSE_INDEX: false,
-        FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true,
-        SOURCELINK_SUFFIX: '.txt'
-      };
-    </script>
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
@@ -31,8 +23,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
 
-  </head>
-  <body>
+  </head><body>
   
 
     <div class="document">
@@ -43,7 +34,7 @@
   <div class="section" id="chessboard">
 <h1>Chessboard<a class="headerlink" href="#chessboard" title="Permalink to this headline">¶</a></h1>
 <p>This is what the chessboard looks like:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="n">A</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="n">A</span>
 <span class="mi">1</span><span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
 <span class="mi">2</span><span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
 <span class="mi">3</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
@@ -60,7 +51,7 @@
 <div class="section" id="init">
 <h1>Init<a class="headerlink" href="#init" title="Permalink to this headline">¶</a></h1>
 <p>The Chessboard class</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">chessboard</span><span class="o">.</span><span class="n">Chessboard</span><span class="p">(</span><span class="n">board_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ch_off</span><span class="o">=</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">ch_def</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">ch_blank</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">game_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chessboard</span><span class="o">.</span><span class="n">Chessboard</span><span class="p">(</span><span class="n">board_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ch_off</span><span class="o">=</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">ch_def</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">ch_blank</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">game_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -76,58 +67,50 @@
 <div class="section" id="instance-methods">
 <h1>Instance Methods<a class="headerlink" href="#instance-methods" title="Permalink to this headline">¶</a></h1>
 <p>Some methods to operate the chessboard is listed</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">set_pos</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">set_pos</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li><cite>x, y</cite> are the coordinates of chess.</li>
-<li><cite>user</cite> is the player index.</li>
+<li><cite>pos</cite> are the coordinates of chess.</li>
 <li><cite>check</cite> whether to check winner after this step</li>
 </ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">set_pos_on_board_special</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">board</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-<ul class="simple">
-<li>Set a chess on a specific coodinate (x, y) for user on board</li>
-<li>If <cite>board</cite> is given, put on the <cite>board</cite>, else, put on the <cite>self.pos</cite></li>
-</ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">print_pos</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">print_pos</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li>Print the chessboard, if <cite>pos</cite> is given, print <cite>pos</cite>, else, print <cite>self.pos</cite></li>
 <li><cite>coordinates</cite> is the current coordinates of chess, this one will be print in specific color</li>
 </ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">rotate_board</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;radian&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">rotate_board</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;radian&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li>Rotate the chessboard <em>anticlockwise</em> for <cite>angle</cite> degree/radian (based on <cite>unit</cite>), using the center of the chessboard as the center of rotation, e.g.,</li>
 </ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span>
 <span class="mi">1</span><span class="o">|</span><span class="n">O</span><span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span>
 <span class="mi">2</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
 <span class="mi">3</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
 </pre></div>
 </div>
 <p>becomes</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span>
 <span class="mi">1</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span>
 <span class="mi">2</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span>
 <span class="mi">3</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
 </pre></div>
 </div>
 <p>when call <cite>self.rotate_board(270, ‘angle’)</cite></p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">handle_input</span><span class="p">(</span><span class="n">input_str</span><span class="p">,</span> <span class="n">user</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">handle_input</span><span class="p">(</span><span class="n">input_str</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li>Handle the input of user, can be <em>coordinates</em> or <em>commands</em>.</li>
 <li><cite>input_str</cite> The input string.</li>
-<li><cite>user</cite> The player index, can be calculated automatically.</li>
 <li><cite>check</cite> Whether to check winner.</li>
+<li><cite>place</cite> Whether to place a chess or only process the input</li>
 </ul>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">undo</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">undo</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -135,9 +118,18 @@
 <li><cite>times</cite> Undo times, default 1</li>
 </ul>
 </div>
-<div class="section" id="module-level-method">
-<h1>Module-level Method<a class="headerlink" href="#module-level-method" title="Permalink to this headline">¶</a></h1>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">play_game</span><span class="p">()</span>
+<div class="section" id="an-example-comgames">
+<h1>An example: comgames<a class="headerlink" href="#an-example-comgames" title="Permalink to this headline">¶</a></h1>
+</div>
+<div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">comgames</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">comgames</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -173,7 +165,9 @@ Max winning: &lt; size</li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Chessboard</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#init">Init</a></li>
 <li class="toctree-l1"><a class="reference internal" href="#instance-methods">Instance Methods</a></li>
-<li class="toctree-l1"><a class="reference internal" href="#module-level-method">Module-level Method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#an-example-comgames">An example: comgames</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="#usage">Usage</a></li>
 </ul>
 
 <div class="relations">
@@ -186,12 +180,14 @@ Max winning: &lt; size</li>
 </div>
 <div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
+    <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
+    </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
@@ -202,7 +198,7 @@ Max winning: &lt; size</li>
       &copy;2017, Hou Lu.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.6.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.7.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.10</a>
       
       |

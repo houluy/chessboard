@@ -41,18 +41,10 @@ Some methods to operate the chessboard is listed
 
 ::
 
-    self.set_pos(x, y, user=None, check=True)
+    self.set_pos(pos, check=True)
 
-* `x, y` are the coordinates of chess.
-* `user` is the player index.
+* `pos` are the coordinates of chess.
 * `check` whether to check winner after this step
-
-::
-
-    self.set_pos_on_board_special(x, y, user=None, board=None, user_number=2)
-
-* Set a chess on a specific coodinate (x, y) for user on board
-* If `board` is given, put on the `board`, else, put on the `self.pos`
 
 ::
 
@@ -87,12 +79,12 @@ when call `self.rotate_board(270, 'angle')`
 
 ::
 
-    self.handle_input(input_str, user=None, check=False)
+    self.handle_input(input_str, check=False, place=True)
 
 * Handle the input of user, can be *coordinates* or *commands*.
 * `input_str` The input string.
-* `user` The player index, can be calculated automatically.
 * `check` Whether to check winner.
+* `place` Whether to place a chess or only process the input
 
 ::
 
@@ -101,12 +93,23 @@ when call `self.rotate_board(270, 'angle')`
 * Undo 
 * `times` Undo times, default 1
 
-Module-level Method
-*******************
+An example: comgames
+********************
+
+Installation
+************
 
 ::
 
-    play_game()
+    pip install comgames
+
+
+Usage
+*****
+
+::
+
+    comgames
 
 * Four kinds of board games are built-in.
   - `fourinarow`
