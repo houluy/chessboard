@@ -24,7 +24,17 @@ The Chessboard class
 
 ::
 
-    chessboard.Chessboard(board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None)
+    chessboard.Chessboard(
+        board_size=3, 
+        win=3,
+        ch_off='O',
+        ch_def='X',
+        ch_blank=' ',
+        user_number=2,
+        game_name=None, 
+        pos=None,
+        nested=False
+    )
 
 * ``board_size`` defines the size of the chessboard
 * ``win`` defines the number of chess pieces to win in a line
@@ -50,14 +60,14 @@ Some methods to operate the chessboard is listed
 
     self.print_pos(coordinates, pos=None)
 
-* Print the chessboard, if `pos` is given, print `pos`, else, print `self.pos`
+* Print the chessboard, if ``pos`` is given, print ``pos``, else, print ``self.pos``
 * ``coordinates`` is the current coordinates of chess, this one will be print in specific color
 
 ::
 
     self.rotate_board(angle, unit='radian')
 
-* Rotate the chessboard *anticlockwise* for `angle` degree/radian (based on `unit`), using the center of the chessboard as the center of rotation, e.g.,
+* Rotate the chessboard *anticlockwise* for ``angle`` degree/radian (based on ``unit``), using the center of the chessboard as the center of rotation, e.g.,
 
 ::
 
@@ -75,7 +85,7 @@ becomes
   2| | |X|
   3| | | |
 
-when call `self.rotate_board(270, 'angle')`
+when call ``self.rotate_board(270, 'angle')``
 
 ::
 
@@ -85,6 +95,25 @@ when call `self.rotate_board(270, 'angle')`
 * ``input_str`` The input string.
 * ``check`` Whether to check winner.
 * ``place`` Whether to place a chess or only process the input
+
+::
+
+    self.validate_pos(pos)
+
+* Validate the coordinates.
+* ``pos`` should be in form ``(x, y)``
+
+::
+
+    self.validate_input(input_str, val_pos=True)
+
+* Validate the user input.
+* ``input_str``, valid user input is 
+    - ``x, y``
+    - ``u, 1``
+    - ``x`` (only for game *fourinarow*)
+    ``x`` and ``y`` are the *one-letter* coordinates
+* ``val_pos`` indicate whether to validate the coodinates
 
 ::
 
@@ -112,10 +141,12 @@ Usage
     comgames
 
 * Four kinds of board games are built-in.
+
   - *fourinarow*
   - *Gomoku*
   - *tictactoe*
   - *normal*
+
 * When *normal*, players are asked to input the size of the board and the number of winnings.
   Max size: 61
   Max winning: < size
@@ -157,4 +188,15 @@ Gomoku
     D| | | | | | | | | | | | | | | |
     E| | | | | | | | | | | | | | | |
     F| | | | | | | | | | | | | | | |
+
+
+tictactoe
+=========
+
+:: 
+
+    * 1 2 3
+    1|O|X|O|
+    2|X|O|X|
+    3|X|O|O|
 

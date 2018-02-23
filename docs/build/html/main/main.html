@@ -50,7 +50,17 @@
 <div class="section" id="init">
 <h2>Init<a class="headerlink" href="#init" title="Permalink to this headline">¶</a></h2>
 <p>The Chessboard class</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chessboard</span><span class="o">.</span><span class="n">Chessboard</span><span class="p">(</span><span class="n">board_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">win</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">ch_off</span><span class="o">=</span><span class="s1">&#39;O&#39;</span><span class="p">,</span> <span class="n">ch_def</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span> <span class="n">ch_blank</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">game_name</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">chessboard</span><span class="o">.</span><span class="n">Chessboard</span><span class="p">(</span>
+    <span class="n">board_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">win</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">ch_off</span><span class="o">=</span><span class="s1">&#39;O&#39;</span><span class="p">,</span>
+    <span class="n">ch_def</span><span class="o">=</span><span class="s1">&#39;X&#39;</span><span class="p">,</span>
+    <span class="n">ch_blank</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span>
+    <span class="n">user_number</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">game_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">nested</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
@@ -77,14 +87,14 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li>Print the chessboard, if <cite>pos</cite> is given, print <cite>pos</cite>, else, print <cite>self.pos</cite></li>
+<li>Print the chessboard, if <code class="docutils literal notranslate"><span class="pre">pos</span></code> is given, print <code class="docutils literal notranslate"><span class="pre">pos</span></code>, else, print <code class="docutils literal notranslate"><span class="pre">self.pos</span></code></li>
 <li><code class="docutils literal notranslate"><span class="pre">coordinates</span></code> is the current coordinates of chess, this one will be print in specific color</li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">rotate_board</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;radian&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
-<li>Rotate the chessboard <em>anticlockwise</em> for <cite>angle</cite> degree/radian (based on <cite>unit</cite>), using the center of the chessboard as the center of rotation, e.g.,</li>
+<li>Rotate the chessboard <em>anticlockwise</em> for <code class="docutils literal notranslate"><span class="pre">angle</span></code> degree/radian (based on <code class="docutils literal notranslate"><span class="pre">unit</span></code>), using the center of the chessboard as the center of rotation, e.g.,</li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span>
 <span class="mi">1</span><span class="o">|</span><span class="n">O</span><span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span>
@@ -99,7 +109,7 @@
 <span class="mi">3</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
 </pre></div>
 </div>
-<p>when call <cite>self.rotate_board(270, ‘angle’)</cite></p>
+<p>when call <code class="docutils literal notranslate"><span class="pre">self.rotate_board(270,</span> <span class="pre">'angle')</span></code></p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">handle_input</span><span class="p">(</span><span class="n">input_str</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">place</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -108,6 +118,33 @@
 <li><code class="docutils literal notranslate"><span class="pre">input_str</span></code> The input string.</li>
 <li><code class="docutils literal notranslate"><span class="pre">check</span></code> Whether to check winner.</li>
 <li><code class="docutils literal notranslate"><span class="pre">place</span></code> Whether to place a chess or only process the input</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">validate_pos</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul class="simple">
+<li>Validate the coordinates.</li>
+<li><code class="docutils literal notranslate"><span class="pre">pos</span></code> should be in form <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y)</span></code></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">validate_input</span><span class="p">(</span><span class="n">input_str</span><span class="p">,</span> <span class="n">val_pos</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<ul>
+<li><p class="first">Validate the user input.</p>
+</li>
+<li><dl class="first docutils">
+<dt><code class="docutils literal notranslate"><span class="pre">input_str</span></code>, valid user input is</dt>
+<dd><ul class="first simple">
+<li><code class="docutils literal notranslate"><span class="pre">x,</span> <span class="pre">y</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">u,</span> <span class="pre">1</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">x</span></code> (only for game <em>fourinarow</em>)</li>
+</ul>
+<p class="last"><code class="docutils literal notranslate"><span class="pre">x</span></code> and <code class="docutils literal notranslate"><span class="pre">y</span></code> are the <em>one-letter</em> coordinates</p>
+</dd>
+</dl>
+</li>
+<li><p class="first"><code class="docutils literal notranslate"><span class="pre">val_pos</span></code> indicate whether to validate the coodinates</p>
+</li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">undo</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
@@ -132,11 +169,13 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li>Four kinds of board games are built-in.
-- <em>fourinarow</em>
-- <em>Gomoku</em>
-- <em>tictactoe</em>
-- <em>normal</em></li>
+<li>Four kinds of board games are built-in.<ul>
+<li><em>fourinarow</em></li>
+<li><em>Gomoku</em></li>
+<li><em>tictactoe</em></li>
+<li><em>normal</em></li>
+</ul>
+</li>
 <li>When <em>normal</em>, players are asked to input the size of the board and the number of winnings.
 Max size: 61
 Max winning: &lt; size</li>
@@ -172,6 +211,15 @@ Max winning: &lt; size</li>
 <span class="n">D</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
 <span class="n">E</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
 <span class="n">F</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="tictactoe">
+<h3>tictactoe<a class="headerlink" href="#tictactoe" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span>
+<span class="mi">1</span><span class="o">|</span><span class="n">O</span><span class="o">|</span><span class="n">X</span><span class="o">|</span><span class="n">O</span><span class="o">|</span>
+<span class="mi">2</span><span class="o">|</span><span class="n">X</span><span class="o">|</span><span class="n">O</span><span class="o">|</span><span class="n">X</span><span class="o">|</span>
+<span class="mi">3</span><span class="o">|</span><span class="n">X</span><span class="o">|</span><span class="n">O</span><span class="o">|</span><span class="n">O</span><span class="o">|</span>
 </pre></div>
 </div>
 </div>
