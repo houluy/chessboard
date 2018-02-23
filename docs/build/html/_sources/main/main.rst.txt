@@ -1,5 +1,5 @@
 Chessboard
-**********
+##########
 
 This is what the chessboard looks like:
 
@@ -26,8 +26,8 @@ The Chessboard class
 
     chessboard.Chessboard(board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None)
 
-* `board_size` defines the size of the chessboard
-* `win` defines the number of chess pieces to win in a line
+* ``board_size`` defines the size of the chessboard
+* ``win`` defines the number of chess pieces to win in a line
 * `ch_off` defines the character of offensive player
 * `ch_def` defines the character of defensive player
 * `ch_black` defines the character of default place
@@ -94,7 +94,7 @@ when call `self.rotate_board(270, 'angle')`
 * `times` Undo times, default 1
 
 An example: comgames
-********************
+####################
 
 Installation
 ************
