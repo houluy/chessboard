@@ -28,11 +28,11 @@ The Chessboard class
 
 * ``board_size`` defines the size of the chessboard
 * ``win`` defines the number of chess pieces to win in a line
-* `ch_off` defines the character of offensive player
-* `ch_def` defines the character of defensive player
-* `ch_black` defines the character of default place
-* `user_number` defines the number of players (No use)
-* `game_name` defines the built-in game_name (default None)
+* ``ch_off`` defines the character of offensive player
+* ``ch_def`` defines the character of defensive player
+* ``ch_black`` defines the character of default place
+* ``user_number`` defines the number of players (No use)
+* ``game_name`` defines the built-in game_name (default None)
 
 Instance Methods
 ****************
@@ -43,15 +43,15 @@ Some methods to operate the chessboard is listed
 
     self.set_pos(pos, check=True)
 
-* `pos` are the coordinates of chess.
-* `check` whether to check winner after this step
+* ``pos`` are the coordinates of chess.
+* ``check`` whether to check winner after this step
 
 ::
 
     self.print_pos(coordinates, pos=None)
 
 * Print the chessboard, if `pos` is given, print `pos`, else, print `self.pos`
-* `coordinates` is the current coordinates of chess, this one will be print in specific color
+* ``coordinates`` is the current coordinates of chess, this one will be print in specific color
 
 ::
 
@@ -82,16 +82,16 @@ when call `self.rotate_board(270, 'angle')`
     self.handle_input(input_str, check=False, place=True)
 
 * Handle the input of user, can be *coordinates* or *commands*.
-* `input_str` The input string.
-* `check` Whether to check winner.
-* `place` Whether to place a chess or only process the input
+* ``input_str`` The input string.
+* ``check`` Whether to check winner.
+* ``place`` Whether to place a chess or only process the input
 
 ::
 
     self.undo(times=1)
 
 * Undo 
-* `times` Undo times, default 1
+* ``times`` Undo times, default 1
 
 An example: comgames
 ####################
@@ -112,10 +112,49 @@ Usage
     comgames
 
 * Four kinds of board games are built-in.
-  - `fourinarow`
-  - `Gomoku`
-  - `tictactoe`
-  - `normal`
-* When `normal`, players are asked to input the size of the board and the number of winnings.
+  - *fourinarow*
+  - *Gomoku*
+  - *tictactoe*
+  - *normal*
+* When *normal*, players are asked to input the size of the board and the number of winnings.
   Max size: 61
   Max winning: < size
+
+
+fourinarow
+==========
+
+::
+
+    * 1 2 3 4 5 6 7
+    1| | | | | | | |
+    2| | | | | | | |
+    3| | | | | | | |
+    4| | | |O| | | |
+    5| | |O|X| | | |
+    6| |O|X|O| | | |
+    7|O|X|X|O|X| | |
+
+
+Gomoku
+======
+
+:: 
+
+    * 1 2 3 4 5 6 7 8 9 A B C D E F
+    1| | | | | | | | | | | | | | | |
+    2| | | | | | | | | | | | | | | |
+    3| | | | | | | | | | | | | | | |
+    4| | | | | | | | | | | | | | | |
+    5| | | | | | | | | | | | | | | |
+    6| | | | | | | | | | | | | | | |
+    7| | | | | | |O| | | | | | | | |
+    8| | | | | | |X|O| | | | | | | |
+    9| | | | | | | |X|O| | | | | | |
+    A| | | | | | | | | |O|X|X| | | |
+    B| | | | | | | | | | |O| | | | |
+    C| | | | | | | | | | | | | | | |
+    D| | | | | | | | | | | | | | | |
+    E| | | | | | | | | | | | | | | |
+    F| | | | | | | | | | | | | | | |
+

@@ -56,11 +56,11 @@
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">board_size</span></code> defines the size of the chessboard</li>
 <li><code class="docutils literal notranslate"><span class="pre">win</span></code> defines the number of chess pieces to win in a line</li>
-<li><cite>ch_off</cite> defines the character of offensive player</li>
-<li><cite>ch_def</cite> defines the character of defensive player</li>
-<li><cite>ch_black</cite> defines the character of default place</li>
-<li><cite>user_number</cite> defines the number of players (No use)</li>
-<li><cite>game_name</cite> defines the built-in game_name (default None)</li>
+<li><code class="docutils literal notranslate"><span class="pre">ch_off</span></code> defines the character of offensive player</li>
+<li><code class="docutils literal notranslate"><span class="pre">ch_def</span></code> defines the character of defensive player</li>
+<li><code class="docutils literal notranslate"><span class="pre">ch_black</span></code> defines the character of default place</li>
+<li><code class="docutils literal notranslate"><span class="pre">user_number</span></code> defines the number of players (No use)</li>
+<li><code class="docutils literal notranslate"><span class="pre">game_name</span></code> defines the built-in game_name (default None)</li>
 </ul>
 </div>
 <div class="section" id="instance-methods">
@@ -70,15 +70,15 @@
 </pre></div>
 </div>
 <ul class="simple">
-<li><cite>pos</cite> are the coordinates of chess.</li>
-<li><cite>check</cite> whether to check winner after this step</li>
+<li><code class="docutils literal notranslate"><span class="pre">pos</span></code> are the coordinates of chess.</li>
+<li><code class="docutils literal notranslate"><span class="pre">check</span></code> whether to check winner after this step</li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">print_pos</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li>Print the chessboard, if <cite>pos</cite> is given, print <cite>pos</cite>, else, print <cite>self.pos</cite></li>
-<li><cite>coordinates</cite> is the current coordinates of chess, this one will be print in specific color</li>
+<li><code class="docutils literal notranslate"><span class="pre">coordinates</span></code> is the current coordinates of chess, this one will be print in specific color</li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">rotate_board</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;radian&#39;</span><span class="p">)</span>
 </pre></div>
@@ -105,16 +105,16 @@
 </div>
 <ul class="simple">
 <li>Handle the input of user, can be <em>coordinates</em> or <em>commands</em>.</li>
-<li><cite>input_str</cite> The input string.</li>
-<li><cite>check</cite> Whether to check winner.</li>
-<li><cite>place</cite> Whether to place a chess or only process the input</li>
+<li><code class="docutils literal notranslate"><span class="pre">input_str</span></code> The input string.</li>
+<li><code class="docutils literal notranslate"><span class="pre">check</span></code> Whether to check winner.</li>
+<li><code class="docutils literal notranslate"><span class="pre">place</span></code> Whether to place a chess or only process the input</li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">undo</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li>Undo</li>
-<li><cite>times</cite> Undo times, default 1</li>
+<li><code class="docutils literal notranslate"><span class="pre">times</span></code> Undo times, default 1</li>
 </ul>
 </div>
 </div>
@@ -133,14 +133,48 @@
 </div>
 <ul class="simple">
 <li>Four kinds of board games are built-in.
-- <cite>fourinarow</cite>
-- <cite>Gomoku</cite>
-- <cite>tictactoe</cite>
-- <cite>normal</cite></li>
-<li>When <cite>normal</cite>, players are asked to input the size of the board and the number of winnings.
+- <em>fourinarow</em>
+- <em>Gomoku</em>
+- <em>tictactoe</em>
+- <em>normal</em></li>
+<li>When <em>normal</em>, players are asked to input the size of the board and the number of winnings.
 Max size: 61
 Max winning: &lt; size</li>
 </ul>
+<div class="section" id="fourinarow">
+<h3>fourinarow<a class="headerlink" href="#fourinarow" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span>
+<span class="mi">1</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">2</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">3</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">4</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">5</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">6</span><span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span><span class="n">X</span><span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">7</span><span class="o">|</span><span class="n">O</span><span class="o">|</span><span class="n">X</span><span class="o">|</span><span class="n">X</span><span class="o">|</span><span class="n">O</span><span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="gomoku">
+<h3>Gomoku<a class="headerlink" href="#gomoku" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">*</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="n">A</span> <span class="n">B</span> <span class="n">C</span> <span class="n">D</span> <span class="n">E</span> <span class="n">F</span>
+<span class="mi">1</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">2</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">3</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">4</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">5</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">6</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">7</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">8</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="mi">9</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">X</span><span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="n">A</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span><span class="n">X</span><span class="o">|</span><span class="n">X</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="n">B</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span><span class="n">O</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="n">C</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="n">D</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="n">E</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+<span class="n">F</span><span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span> <span class="o">|</span>
+</pre></div>
+</div>
+</div>
 </div>
 </div>
 
