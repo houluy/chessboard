@@ -20,3 +20,9 @@ Bug fix
 
 ## chessboard 1.1.0
 Add color
+
+## chessboard 1.1.1 - 1.1.2
+Bug fix
+
+## chessboard 1.2.0
+Stable version

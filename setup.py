@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 from codecs import open
 from os import path
 
-from chessboard import __version__
+from chessboard.version import __version__
 
 here = path.abspath(path.dirname(__file__))
 

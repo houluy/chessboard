@@ -2,10 +2,9 @@
 import copy
 import math
 import sys
+import string 
 from itertools import combinations_with_replacement as comb
 from colorline import cprint
-
-__version__ = '1.1.0'
 
 ASC_ONE = ord('1')
 ASC_NINE = ord('9')
@@ -30,7 +29,8 @@ class Chessboard:
         self.graph = []
         self.board_size = board_size
         self.win = win
-        if game_name:
+        self.game_name = game_name
+        if self.game_name:
             if game_name == 'Gomoku':
                 self.board_size = 15
                 self.win = 5
@@ -95,6 +95,9 @@ class Chessboard:
     def str2state(self, pos_str):
         return [int(x) for x in pos_str]
 
+    def get_column(self, column):
+        return [_[column] for _ in self.pos]
+
     def compute_coordinate(self, index):
         '''Compute two-dimension coordinate from one-dimension list'''
         j = index%self.board_size
@@ -102,7 +105,7 @@ class Chessboard:
         return (i, j)
 
     def count_round(self):
-        self._game_round = 0
+        self._game_round = 1
         for ind_i, val_i in enumerate(self.pos):
             for ind_j, val_j in enumerate(val_i):
                 if val_j != 0:
@@ -185,44 +188,22 @@ class Chessboard:
     def get_player(self):
         return 2 - self._game_round % 2
     
-    def set_pos(self, x, y, user=None, check=False):
+    def set_pos(self, pos, check=False):
         '''Set a chess'''
-        if isinstance(x, str):
-            x, y = self.asc2pos(x), self.asc2pos(y)
-        else:
-            x -= 1
-            y -= 1
-        if not user:
-            user = self.get_player()
-        if x not in self.pos_range or y not in self.pos_range or user not in range(1, self.user_number + 1): 
-            raise ValueError('Position or user value is out of range')
-        elif self.pos[x][y] != 0:
-            raise PositionError('There is a chess piece on that position')
-        else:
-            self.history[self._game_round] = copy.deepcopy(self.pos)
-            self.pos[x][y] = user
-            self._game_round += 1
-            if check:
-                winning = self.check_win_by_step(x, y, user)
-                if winning is True:
-                    return winning
-            return (x, y)
-
-    def set_pos_on_board_special(self, board, x, y, user, user_number=2):
-        '''Set a chess based on a specific chessboard'''
-        if isinstance(x, str):
-            x, y = self.asc2pos(x), self.asc2pos(y)
-        else:
-            x -= 1
-            y -= 1
-        board_size = len(board[0])
-        if x not in range(board_size) or y not in range(board_size) or user not in range(1, user_number + 1): 
-            raise ValueError('Position or user value is out of range')
-        elif board[x][y] != 0:
-            raise PositionError('There is a chess piece on that position')
-        else:
-            board[x][y] = user
-            return board
+        try:
+            self.validate_pos(pos)
+        except Exception as e:
+            raise e
+        x, y = pos
+        user = self.get_player()
+        self.history[self._game_round] = copy.deepcopy(self.pos)
+        self.pos[x][y] = user
+        self._game_round += 1
+        if check:
+            winning = self.check_win_by_step(x, y, user)
+            if winning is True:
+                return winning
+        return (x, y)
 
     def _transform(self, val):
         return self.character.get(val)
@@ -243,31 +224,64 @@ class Chessboard:
         '''
         pass
 
-    def handle_input(self, input_str, place=True, user=None, check=False):
-        '''Transfer user input to valid chess position'''
+    def validate_input(self, input_str, val_pos=True):
         input_str = input_str.replace(' ', '')
         pos_str = input_str.split(',')
+        pos_xy = []
+        for pos in pos_str:
+            if len(pos) != 1:
+                raise ValueError('Error position, form: x, y, one character at most')
+            pos_num = self.asc2pos(pos)
+            pos_xy.append(pos_num)
+
+        if self.game_name == 'fourinarow':
+            y = pos_xy[0]
+            x = 0
+        else:
+            if len(pos_xy) != 2:
+                raise ValueError('Error position, must have both x and y coordinates')
+            x, y = pos_xy
+        if val_pos:
+            try:
+                self.validate_pos((x, y))
+            except PositionError as e:
+                raise e
+        if self.game_name == 'fourinarow':
+            x = self.get_not_num(self.get_column(y)) - 1
+            if x not in self.pos_range:
+                raise PositionError('This column is full')
+        return (x, y)
+
+    def validate_pos(self, pos):
+        x, y = pos
+        for p in pos:
+            if p not in self.pos_range:
+                raise PositionError('Position value is out of board\'s range')
+        if self.pos[x][y] != 0:
+            raise PositionError('There is a chess piece on that position')
+
+    def handle_input(self, input_str, place=True, user=None, check=False):
+        '''Transfer user input to valid chess position'''
         if not user:
             user = self.get_player()
-        if pos_str[0] == 'u':
+        if input_str[0] == 'u':
             try:
-                self.undo(int(pos_str[1]))
+                self.undo(int(input_str[1]))
             except ValueError as e:
                 raise e
             else:
                 return None
+        else:
+            pos = self.validate_input(input_str)
         if place:
-            if (len(pos_str) != 2):
-                raise PositionError('Error number of coordinates or commands!')
-            x, y = pos_str
             try:
-                result = self.set_pos(x, y, user, check)
+                result = self.set_pos(pos, check)
             except (ValueError, PositionError) as e:
                 raise e
             else:
                 return result
         else:
-            return pos_str
+            return pos
 
     def distance(self, piecex, piecey):
         '''Return the distance of chess piece X and Y (Chebyshev Distance)'''
