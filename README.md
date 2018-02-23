@@ -1,4 +1,10 @@
 # chessboard
+
+[![PyPI](https://img.shields.io/pypi/pyversions/Django.svg?style=plastic)]()
+[![CocoaPods](https://img.shields.io/cocoapods/l/AFNetworking.svg?style=plastic)]()
+[![PyPI](https://img.shields.io/pypi/status/Django.svg?style=plastic)]()
+[![](https://img.shields.io/badge/version-1.2.0-ff69b4.svg?style=plastic)]()
+
 A chessboard module for board games in Linux command-line
 
 Use  
@@ -8,7 +14,7 @@ pip install chessboardCLI
 
 to install it.  
 
-The full docs is provided [here](http://chessboardm.readthedocs.io/).
+__The full docs is provided [here](http://chessboardm.readthedocs.io/)__.
 
 ##### Useful functions:
 1. Get the sign of an integer:
