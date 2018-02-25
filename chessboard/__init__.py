@@ -330,6 +330,10 @@ class Chessboard:
                 result[j - 1] = result[j - 1] + 1 if j != 0 else result[j - 1]
         return result
 
+    def get_line_coor(self, length=self.win):
+        #Get the coordinates of a line
+        pass
+
 class ChessboardExtension(Chessboard):
     '''Provide extended methods for Class Chessboard'''
     def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None, pos=None, nested=False):
