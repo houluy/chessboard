@@ -55,7 +55,7 @@ Some methods to operate the chessboard is listed
 
 * ``pos`` are the coordinates of chess.
 * ``check`` whether to check winner after this step 
-* *return* ``True`` if the current user wins, else, return the current coordinates
+* **return** ``True`` if the current user wins, else, return the current coordinates
 
 ::
 
@@ -96,7 +96,7 @@ when call ``self.rotate_board(270, 'angle')``
 * ``input_str`` The input string.
 * ``check`` Whether to check winner.
 * ``place`` Whether to place a chess or only process the input
-* *return* same as ``self.set_pos`` if ``place`` is ``True``, else, return the current coordinates only.
+* **return** same as ``self.set_pos`` if ``place`` is ``True``, else, return the current coordinates only.
 
 ::
 
@@ -114,7 +114,8 @@ when call ``self.rotate_board(270, 'angle')``
     - ``x, y``
     - ``u, 1``
     - ``x`` (only for game *fourinarow*)
-    ``x`` and ``y`` are the *one-letter* coordinates
+
+    (``x`` and ``y`` are the *one-letter* coordinates)
 * ``val_pos`` indicate whether to validate the coodinates
 
 ::
