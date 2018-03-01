@@ -153,9 +153,9 @@ class Chessboard:
                 print(chr(i - MAX_CAP + ASC_a), end='')
             print('|', end='')
             #Colorful print
-            if coordinates and coordinates[0] == i:
+            if coordinates:
                 for j in range(self.board_size):
-                    if j == coordinates[1]:
+                    if (i, j) in coordinates:
                         new_print = cprint
                         params = {
                             'color': 'r',
@@ -201,9 +201,12 @@ class Chessboard:
         self._game_round += 1
         if check:
             winning = self.check_win_by_step(x, y, user)
-            if winning is True:
-                return winning
-        return (x, y)
+            return winning
+        else:
+            return (x, y)
+
+    def get_win_list(self):
+        return self.win_list
 
     def _transform(self, val):
         return self.character.get(val)
@@ -291,6 +294,7 @@ class Chessboard:
         if not line_number:
             line_number = self.win
         for ang in self.angle:
+            self.win_list = [(x, y)]
             angs = [ang, ang + math.pi]
             line_num = 1
             radius = 1
@@ -303,10 +307,10 @@ class Chessboard:
                 for ind, a in enumerate(angs):
                     target_x = int(x + radius*(sign(math.cos(a)))) if direction[ind] else -1
                     target_y = int(y - radius*(sign(math.sin(a)))) if direction[ind] else -1
-                    #print('angle: {}, cos: {}, sin: {}, radius: {}, line_num: {}, ind: {}, direction: {}, target_x: {}, target_y: {}'.format(a/math.pi, math.cos(a), math.sin(a), radius, line_num, ind, direction[ind], target_x + 1, target_y + 1))
                     if target_x < 0 or target_y < 0 or target_x > self.board_size - 1 or target_y > self.board_size - 1:
                         direction[ind] = 0
                     elif self.pos[target_x][target_y] == user:
+                        self.win_list.append((target_x, target_y))
                         line_num += 1
                     else:
                         direction[ind] = 0
@@ -329,10 +333,6 @@ class Chessboard:
             for j in i:
                 result[j - 1] = result[j - 1] + 1 if j != 0 else result[j - 1]
         return result
-
-    def get_line_coor(self, length=self.win):
-        #Get the coordinates of a line
-        pass
 
 class ChessboardExtension(Chessboard):
     '''Provide extended methods for Class Chessboard'''

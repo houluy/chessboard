@@ -51,17 +51,18 @@ Some methods to operate the chessboard is listed
 
 ::
 
-    self.set_pos(pos, check=True)
+    self.set_pos(pos, check=False)
 
 * ``pos`` are the coordinates of chess.
-* ``check`` whether to check winner after this step
+* ``check`` whether to check winner after this step 
+* *return* ``True`` if the current user wins, else, return the current coordinates
 
 ::
 
-    self.print_pos(coordinates, pos=None)
+    self.print_pos(coordinates=None, pos=None)
 
 * Print the chessboard, if ``pos`` is given, print ``pos``, else, print ``self.pos``
-* ``coordinates`` is the current coordinates of chess, this one will be print in specific color
+* ``coordinates`` is a ``list`` of coordinates which will be printed in specific color.
 
 ::
 
@@ -95,6 +96,7 @@ when call ``self.rotate_board(270, 'angle')``
 * ``input_str`` The input string.
 * ``check`` Whether to check winner.
 * ``place`` Whether to place a chess or only process the input
+* *return* same as ``self.set_pos`` if ``place`` is ``True``, else, return the current coordinates only.
 
 ::
 

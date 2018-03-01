@@ -76,19 +76,20 @@
 <div class="section" id="instance-methods">
 <h2>Instance Methods<a class="headerlink" href="#instance-methods" title="Permalink to this headline">¶</a></h2>
 <p>Some methods to operate the chessboard is listed</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">set_pos</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">set_pos</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li><code class="docutils literal notranslate"><span class="pre">pos</span></code> are the coordinates of chess.</li>
 <li><code class="docutils literal notranslate"><span class="pre">check</span></code> whether to check winner after this step</li>
+<li><em>return</em> <code class="docutils literal notranslate"><span class="pre">True</span></code> if the current user wins, else, return the current coordinates</li>
 </ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">print_pos</span><span class="p">(</span><span class="n">coordinates</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">print_pos</span><span class="p">(</span><span class="n">coordinates</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
 </pre></div>
 </div>
 <ul class="simple">
 <li>Print the chessboard, if <code class="docutils literal notranslate"><span class="pre">pos</span></code> is given, print <code class="docutils literal notranslate"><span class="pre">pos</span></code>, else, print <code class="docutils literal notranslate"><span class="pre">self.pos</span></code></li>
-<li><code class="docutils literal notranslate"><span class="pre">coordinates</span></code> is the current coordinates of chess, this one will be print in specific color</li>
+<li><code class="docutils literal notranslate"><span class="pre">coordinates</span></code> is a <code class="docutils literal notranslate"><span class="pre">list</span></code> of coordinates which will be printed in specific color.</li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">rotate_board</span><span class="p">(</span><span class="n">angle</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s1">&#39;radian&#39;</span><span class="p">)</span>
 </pre></div>
@@ -118,6 +119,7 @@
 <li><code class="docutils literal notranslate"><span class="pre">input_str</span></code> The input string.</li>
 <li><code class="docutils literal notranslate"><span class="pre">check</span></code> Whether to check winner.</li>
 <li><code class="docutils literal notranslate"><span class="pre">place</span></code> Whether to place a chess or only process the input</li>
+<li><em>return</em> same as <code class="docutils literal notranslate"><span class="pre">self.set_pos</span></code> if <code class="docutils literal notranslate"><span class="pre">place</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, else, return the current coordinates only.</li>
 </ul>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">validate_pos</span><span class="p">(</span><span class="n">pos</span><span class="p">)</span>
 </pre></div>

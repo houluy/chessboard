@@ -26,3 +26,6 @@ Bug fix
 
 ## chessboard 1.2.0
 Stable version
+
+## chessboard 1.2.1
+Add color for winning chesses
