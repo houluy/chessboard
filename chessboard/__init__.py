@@ -40,8 +40,6 @@ class Chessboard:
             elif game_name == 'fourinarow':
                 self.board_size = 7
                 self.win = 4
-            elif game_name == 'Reversi':
-                self.board_size = 8
             elif game_name == 'normal':
                 self.board_size = int(input('Board size: '))
                 self.win = int(input('Winning chess number: '))
@@ -76,12 +74,7 @@ class Chessboard:
         self.count_round()
         self.user_number = user_number
         self.chess_number = [0 for x in range(self.user_number)]
-        if game_name == 'Reversi':
-            self.chess_number = [2, 2]
-            self.pos[3][3] = 1
-            self.pos[4][4] = 1
-            self.pos[3][4] = 2
-            self.pos[4][3] = 2
+        
         self.check = {}
         self.history = {}
         self.angle = [_*math.pi/4 for _ in range(DIR_NUM)]
@@ -416,6 +409,25 @@ class ChessboardExtension(Chessboard):
         if not pos:
             pos = self.pos
         return [y for x in pos for y in x]
+
+class Reversi(Chessboard):
+    '''
+    Class for Reversi Game
+    '''
+    def __init__(self):
+        super().__init__(board_size=8)
+        self.chess_number = [2, 2]
+        self.pos[3][3] = 1
+        self.pos[4][4] = 1
+        self.pos[3][4] = 2
+        self.pos[4][3] = 2
+
+    def check_win(self):
+        count = self.count_chess()
+        if count[0] != count[1]:
+            return 1 if count[0] > count[1] else 2
+        else:
+            return False
 
 if __name__ == '__main__':
     play_game()
