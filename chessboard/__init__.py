@@ -26,6 +26,7 @@ class Chessboard:
         self.seq  = 1 #1 means offensive pos, while 2 means defensive pos 
         self.character = {1:ch_off, 2:ch_def, 0:ch_blank}
         self.seq_dict = {}
+        self.pos_dict = {}
         self.graph = []
         self.board_size = board_size
         self.win = win
@@ -90,6 +91,23 @@ class Chessboard:
 
     def get_column(self, column):
         return [_[column] for _ in self.pos]
+
+    def _cal_key(self, pos):
+        return str(pos[0]) + str(pos[1])
+
+    def gen_pos_dict(self):
+        for x, i in enumerate(self.pos):
+            for y, j in enumerate(i):
+                pos_str = self._cal_key((x, y))
+                self.pos_dict[pos_str] = j
+
+    def get_all_pos(self, user):
+        pos_list = []
+        for x, i in enumerate(self.pos):
+            for y, j in enumerate(i):
+                if j == user:
+                    pos_list.append((x, y))
+        return pos_list
 
     def compute_coordinate(self, index):
         '''Compute two-dimension coordinate from one-dimension list'''
@@ -428,6 +446,9 @@ class Reversi(Chessboard):
             return 1 if count[0] > count[1] else 2
         else:
             return False
+
+    def get_actions(self, user):
+        pass
 
 if __name__ == '__main__':
     play_game()
