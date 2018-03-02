@@ -25,8 +25,8 @@ class Chessboard:
     def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None, pos=None, nested=False):
         self.seq  = 1 #1 means offensive pos, while 2 means defensive pos 
         self.character = {1:ch_off, 2:ch_def, 0:ch_blank}
-        self.seq_dict = {}
-        self.pos_dict = {}
+        self._pos_dict = {}
+        self._user_pos_dict = {x:[] for x in range(1, user_number + 1)}
         self.graph = []
         self.board_size = board_size
         self.win = win
@@ -95,11 +95,13 @@ class Chessboard:
     def _cal_key(self, pos):
         return str(pos[0]) + str(pos[1])
 
-    def gen_pos_dict(self):
-        for x, i in enumerate(self.pos):
-            for y, j in enumerate(i):
-                pos_str = self._cal_key((x, y))
-                self.pos_dict[pos_str] = j
+    @property
+    def pos_dict(self):
+        return self._pos_dict
+
+    @property
+    def user_pos_dict(self):
+        return self._user_pos_dict
 
     def get_all_pos(self, user):
         pos_list = []
@@ -209,6 +211,9 @@ class Chessboard:
         user = self.get_player()
         self.history[self._game_round] = copy.deepcopy(self.pos)
         self.pos[x][y] = user
+        pos_str = self._cal_key(pos)
+        self._pos_dict[pos_str] = user
+        self._user_pos_dict[user].append(pos)
         self._game_round += 1
         if check:
             winning = self.check_win_by_step(x, y, user)
