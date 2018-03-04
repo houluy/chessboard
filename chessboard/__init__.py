@@ -103,6 +103,18 @@ class Chessboard:
     def user_pos_dict(self):
         return self._user_pos_dict
 
+    def get_chess(self, pos):
+        return self.pos[pos[0]][pos[1]]
+
+    def within_range(self, pos):
+        if 0 < pos[0] < self.board_size and 0 < pos[1] < self.board_size:
+            return True
+        else:
+            return False
+
+    def get_close_chess(self, current, angle, step=1):
+        return (int(current + step*math.cos(angle)), int(current + step*math.sin(angle)))
+
     def get_all_pos(self, user):
         pos_list = []
         for x, i in enumerate(self.pos):
@@ -200,6 +212,9 @@ class Chessboard:
 
     def get_player(self):
         return 2 - self._game_round % 2
+
+    def another_player(self, player):
+        return 2 - (1 + player) % 2
     
     def set_pos(self, pos, check=False):
         '''Set a chess'''
@@ -452,8 +467,23 @@ class Reversi(Chessboard):
         else:
             return False
 
-    def get_actions(self, user):
-        pass
+    def get_actions(self, player):
+        available_action = []
+        for chess in self._user_pos_dict[player]:
+            for angle in self.angle:
+                step = 1
+                while True:
+                    close_pos = self.get_close_chess(chess, angle, step)
+                    close_chess = self.get_chess(close_pos)
+                    if close_chess == player or self.within_range(close_pos):
+                        break
+                    elif close_chess == self.another_player(player):
+                        step += 1
+                        continue
+                    else:
+                        available_action.append(close_pos)
+                        break
+        return available_action
 
 if __name__ == '__main__':
     play_game()
