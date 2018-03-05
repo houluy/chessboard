@@ -473,28 +473,37 @@ class Reversi(Chessboard):
 
     def get_actions(self, player):
         available_action = []
+        oppo_chess_dict = {}
         for chess in self._user_pos_dict[player]:
             for angle in self.full_angle:
                 step = 1
-                oppo_chess_dict = {}
                 oppo_chess_count = 0
+                oppo_chess = []
                 while True:
                     close_pos = self.get_close_chess(chess, angle, step)
                     close_chess = self.get_chess(close_pos)
                     print('Chess: {}, dir: {}, close: {}, player: {}'.format(chess, angle, close_pos, close_chess))
                     if close_chess == player or not self.within_range(close_pos):
-                        print('1')
+                        total = len(oppo_chess_dict[key])
                         break
                     elif close_chess == self.another_player(player):
-                        print('2')
                         step += 1
                         oppo_chess_count += 1
+                        oppo_chess.append(close_pos)
                         continue
                     else:
                         if oppo_chess_count > 0:
+                            key = self._cal_key(close_pos)
+                            if oppo_chess_dict.get(key):
+                                oppo_chess_dict[key] += oppo_chess
+                            else:
+                                oppo_chess_dict[key] = oppo_chess
                             available_action.append(close_pos)
                         break
-        return available_action
+        return {
+            'action': available_action,
+            'opponent': oppo_chess_dict,
+        }
 
 if __name__ == '__main__':
     play_game()
