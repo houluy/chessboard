@@ -16,6 +16,7 @@ MAX_NUM = 9
 MAX_CAP = MAX_NUM + 26
 MAX_LOW = MAX_CAP + 26
 DIR_NUM = 4
+FULL_DIR_NUM = 8
 sign = lambda a: (a > 10**(-10)) - (a < -10**(-10))
 
 class PositionError(Exception):
@@ -79,6 +80,7 @@ class Chessboard:
         self.check = {}
         self.history = {}
         self.angle = [_*math.pi/4 for _ in range(DIR_NUM)]
+        self.full_angle = [_*math.pi/4 for _ in range(FULL_DIR_NUM)]
         
     def __str__(self):
         return ''.join([''.join([str(x) for x in y]) for y in self.pos])
@@ -113,7 +115,7 @@ class Chessboard:
             return False
 
     def get_close_chess(self, current, angle, step=1):
-        return (int(current + step*math.cos(angle)), int(current + step*math.sin(angle)))
+        return (int(current[0] + step*sign(math.cos(angle))), int(current[1] - step*sign(math.sin(angle))))
 
     def get_all_pos(self, user):
         pos_list = []
@@ -459,6 +461,8 @@ class Reversi(Chessboard):
         self.pos[4][4] = 1
         self.pos[3][4] = 2
         self.pos[4][3] = 2
+        self._user_pos_dict[1] = [(3, 3), (4, 4)]
+        self._user_pos_dict[2] = [(3, 4), (4, 3)]
 
     def check_win(self):
         count = self.count_chess()
@@ -470,18 +474,25 @@ class Reversi(Chessboard):
     def get_actions(self, player):
         available_action = []
         for chess in self._user_pos_dict[player]:
-            for angle in self.angle:
+            for angle in self.full_angle:
                 step = 1
+                oppo_chess_dict = {}
+                oppo_chess_count = 0
                 while True:
                     close_pos = self.get_close_chess(chess, angle, step)
                     close_chess = self.get_chess(close_pos)
-                    if close_chess == player or self.within_range(close_pos):
+                    print('Chess: {}, dir: {}, close: {}, player: {}'.format(chess, angle, close_pos, close_chess))
+                    if close_chess == player or not self.within_range(close_pos):
+                        print('1')
                         break
                     elif close_chess == self.another_player(player):
+                        print('2')
                         step += 1
+                        oppo_chess_count += 1
                         continue
                     else:
-                        available_action.append(close_pos)
+                        if oppo_chess_count > 0:
+                            available_action.append(close_pos)
                         break
         return available_action
 

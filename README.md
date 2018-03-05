@@ -4,6 +4,7 @@
 [![CocoaPods](https://img.shields.io/cocoapods/l/AFNetworking.svg?style=plastic)]()
 [![PyPI](https://img.shields.io/pypi/status/Django.svg?style=plastic)]()
 [![](https://img.shields.io/badge/version-1.2.0-ff69b4.svg?style=plastic)]()
+[![](https://github.com/houluy/logo/blob/master/Logo.png)]()
 
 A chessboard module for board games in Linux command-line
 
