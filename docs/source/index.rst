@@ -18,7 +18,7 @@ Indices and tables
 
 |logo|
 
-.. |logo| image:: https://github.com/houluy/logo/blob/master/Logo.png
+.. |logo| image:: https://raw.githubusercontent.com/houluy/logo/master/Logo.png
 
 Installation
 ************
