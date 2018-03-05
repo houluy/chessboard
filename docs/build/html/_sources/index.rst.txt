@@ -16,6 +16,10 @@ Indices and tables
 * :ref:`modindex`
 * :ref:`search`
 
+|logo|
+
+.. |logo| image:: https://github.com/houluy/logo/blob/master/Logo.png
+
 Installation
 ************
 
