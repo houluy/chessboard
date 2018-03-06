@@ -143,11 +143,12 @@ Usage
 
     comgames
 
-* Four kinds of board games are built-in.
+* Several kinds of board games are built-in.
 
   - *fourinarow*
   - *Gomoku*
   - *tictactoe*
+  - *Reversi*
   - *normal*
 
 * When *normal*, players are asked to input the size of the board and the number of winnings.
@@ -202,4 +203,21 @@ tictactoe
     1|O|X|O|
     2|X|O|X|
     3|X|O|O|
+
+
+Reversi
+=======
+
+::
+
+    * 1 2 3 4 5 6 7 8
+    1| | | | | | | | |
+    2| | | | | | | | |
+    3| | | | | | | | |
+    4| | | |O|X| | | |
+    5| | | |X|O| | | |
+    6| | | | | | | | |
+    7| | | | | | | | |
+    8| | | | | | | | |
+
 

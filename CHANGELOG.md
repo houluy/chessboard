@@ -29,3 +29,6 @@ Stable version
 
 ## chessboard 1.2.1
 Add color for winning chesses
+
+## chessboard 1.3.0
+Add Reversi support for `comgames`

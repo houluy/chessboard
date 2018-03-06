@@ -7,3 +7,4 @@ chessboardCLI.egg-info/SOURCES.txt
 chessboardCLI.egg-info/dependency_links.txt
 chessboardCLI.egg-info/requires.txt
 chessboardCLI.egg-info/top_level.txt
+test/test.py

@@ -109,10 +109,16 @@ class Chessboard:
         return self.pos[pos[0]][pos[1]]
 
     def within_range(self, pos):
-        if 0 < pos[0] < self.board_size and 0 < pos[1] < self.board_size:
+        if 0 <= pos[0] < self.board_size and 0 <= pos[1] < self.board_size:
             return True
         else:
             return False
+
+    def skip_round(self, times=1):
+        game_round = self._game_round
+        for i in range(times):
+            self.history[self._game_round + i] = copy.deepcopy(self.pos)
+        self._game_round += times
 
     def get_close_chess(self, current, angle, step=1):
         return (int(current[0] + step*sign(math.cos(angle))), int(current[1] - step*sign(math.sin(angle))))
@@ -185,8 +191,8 @@ class Chessboard:
                     if (i, j) in coordinates:
                         new_print = cprint
                         params = {
-                            'color': 'r',
-                            'bcolor': 'w',
+                            'color': 'w',
+                            'bcolor': 'r',
                         }
                     else:
                         new_print = print
@@ -215,15 +221,20 @@ class Chessboard:
     def get_player(self):
         return 2 - self._game_round % 2
 
-    def another_player(self, player):
+    def get_player_str(self):
+        return self.character.get(self.get_player())
+
+    def another_player(self, player=None):
+        if not player:
+            player = self.get_player()
         return 2 - (1 + player) % 2
+
+    def another_player_str(self, player=None):
+        return self.character.get(self.another_player(player))
     
     def set_pos(self, pos, check=False):
         '''Set a chess'''
-        try:
-            self.validate_pos(pos)
-        except Exception as e:
-            raise e
+        self.validate_pos(pos)
         x, y = pos
         user = self.get_player()
         self.history[self._game_round] = copy.deepcopy(self.pos)
@@ -264,6 +275,13 @@ class Chessboard:
         input_str = input_str.replace(' ', '')
         pos_str = input_str.split(',')
         pos_xy = []
+        if pos_str[0] == 'u':
+            try:
+                times = int(pos_str[1])
+            except Exception as e:
+                raise ValueError('Error command, undo command: u, {times}')
+            else:
+                return ('u', times)
         for pos in pos_str:
             if len(pos) != 1:
                 raise ValueError('Error position, form: x, y, one character at most')
@@ -278,10 +296,7 @@ class Chessboard:
                 raise ValueError('Error position, must have both x and y coordinates')
             x, y = pos_xy
         if val_pos:
-            try:
-                self.validate_pos((x, y))
-            except PositionError as e:
-                raise e
+            self.validate_pos((x, y))
         if self.game_name == 'fourinarow':
             x = self.get_not_num(self.get_column(y)) - 1
             if x not in self.pos_range:
@@ -299,22 +314,13 @@ class Chessboard:
     def handle_input(self, input_str, place=True, check=False):
         '''Transfer user input to valid chess position'''
         user = self.get_player()
-        if input_str[0] == 'u':
-            try:
-                self.undo(int(input_str[1]))
-            except ValueError as e:
-                raise e
-            else:
-                return None
-        else:
-            pos = self.validate_input(input_str)
+        pos = self.validate_input(input_str)
+        if pos[0] == 'u':
+            self.undo(pos[1])
+            return pos
         if place:
-            try:
-                result = self.set_pos(pos, check)
-            except (ValueError, PositionError) as e:
-                raise e
-            else:
-                return result
+            result = self.set_pos(pos, check)
+            return result
         else:
             return pos
 
@@ -449,61 +455,3 @@ class ChessboardExtension(Chessboard):
         if not pos:
             pos = self.pos
         return [y for x in pos for y in x]
-
-class Reversi(Chessboard):
-    '''
-    Class for Reversi Game
-    '''
-    def __init__(self):
-        super().__init__(board_size=8)
-        self.chess_number = [2, 2]
-        self.pos[3][3] = 1
-        self.pos[4][4] = 1
-        self.pos[3][4] = 2
-        self.pos[4][3] = 2
-        self._user_pos_dict[1] = [(3, 3), (4, 4)]
-        self._user_pos_dict[2] = [(3, 4), (4, 3)]
-
-    def check_win(self):
-        count = self.count_chess()
-        if count[0] != count[1]:
-            return 1 if count[0] > count[1] else 2
-        else:
-            return False
-
-    def get_actions(self, player):
-        available_action = []
-        oppo_chess_dict = {}
-        for chess in self._user_pos_dict[player]:
-            for angle in self.full_angle:
-                step = 1
-                oppo_chess_count = 0
-                oppo_chess = []
-                while True:
-                    close_pos = self.get_close_chess(chess, angle, step)
-                    close_chess = self.get_chess(close_pos)
-                    print('Chess: {}, dir: {}, close: {}, player: {}'.format(chess, angle, close_pos, close_chess))
-                    if close_chess == player or not self.within_range(close_pos):
-                        total = len(oppo_chess_dict[key])
-                        break
-                    elif close_chess == self.another_player(player):
-                        step += 1
-                        oppo_chess_count += 1
-                        oppo_chess.append(close_pos)
-                        continue
-                    else:
-                        if oppo_chess_count > 0:
-                            key = self._cal_key(close_pos)
-                            if oppo_chess_dict.get(key):
-                                oppo_chess_dict[key] += oppo_chess
-                            else:
-                                oppo_chess_dict[key] = oppo_chess
-                            available_action.append(close_pos)
-                        break
-        return {
-            'action': available_action,
-            'opponent': oppo_chess_dict,
-        }
-
-if __name__ == '__main__':
-    play_game()
