@@ -3,8 +3,13 @@ import copy
 import math
 import sys
 import string 
+import re
 from itertools import combinations_with_replacement as comb
+import logging
+
+import chessboard.logger
 from colorline import cprint
+
 
 ASC_ONE = ord('1')
 ASC_NINE = ord('9')
@@ -19,68 +24,88 @@ DIR_NUM = 4
 FULL_DIR_NUM = 8
 sign = lambda a: (a > 10**(-10)) - (a < -10**(-10))
 
+
+class BoardUnderlayer:
+    def __init__(self, board_size=3):
+        self.board_size = board_size
+
+
 class PositionError(Exception):
     pass
 
+
+def radian_angle(radian=None, angle=None):
+    assert not (radian is None and angle is None)
+    if radian is not None:
+        return radian * 180 / math.pi
+    elif angle is not None:
+        return angle * math.pi / 180
+
+
 class Chessboard:
-    def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None, pos=None, nested=False):
+    def __init__(self, board_size=3, ch_off='O', ch_def='X', ch_blank=' ', win=3):#, pos=None, nested=False):
         self.seq  = 1 #1 means offensive pos, while 2 means defensive pos 
         self.character = {1:ch_off, 2:ch_def, 0:ch_blank}
-        self._pos_dict = {}
-        self._user_pos_dict = {x:[] for x in range(1, user_number + 1)}
+        #self.pos_dict = {}
         self.graph = []
         self.board_size = board_size
+        self.game_round = 0
+        self.start_player = 1
         self.win = win
-        self.game_name = game_name
-        if self.game_name:
-            if game_name == 'Gomoku':
-                self.board_size = 15
-                self.win = 5
-            elif game_name == 'tictactoe':
-                self.board_size = 3
-                self.win = 3
-            elif game_name == 'fourinarow':
-                self.board_size = 7
-                self.win = 4
-            elif game_name == 'normal':
-                self.board_size = int(input('Board size: '))
-                self.win = int(input('Winning chess number: '))
-            else:
-                raise ValueError('Unsupported game, please refer to docs!')
-        elif pos:
-            self.win = win
-            if isinstance(pos, str):
-                self.board_size = int(math.sqrt(len(pos)))
-            else:
-                if isinstance(pos[0], list):
-                    self.board_size = len(pos)
-                else:
-                    self.board_size = int(math.sqrt(len(pos)))
+        #self.game_name = game_name
+        #if self.game_name:
+        #    if game_name == 'Gomoku':
+        #        self.board_size = 15
+        #        self.win = 5
+        #    elif game_name == 'tictactoe':
+        #        self.board_size = 3
+        #        self.win = 3
+        #    elif game_name == 'fourinarow':
+        #        self.board_size = 7
+        #        self.win = 4
+        #    elif game_name == 'normal':
+        #        self.board_size = int(input('Board size: '))
+        #        self.win = int(input('Winning chess number: '))
+        #    else:
+        #        raise ValueError('Unsupported game, please refer to docs!')
+        #elif pos:
+        #    self.win = win
+        #    if isinstance(pos, str):
+        #        self.board_size = int(math.sqrt(len(pos)))
+        #    else:
+        #        if isinstance(pos[0], list):
+        #            self.board_size = len(pos)
+        #        else:
+        #            self.board_size = int(math.sqrt(len(pos)))
 
         if self.board_size > MAX_LOW:
-            raise ValueError('Board size has reached its limit ({})!'.format(MAX_LOW))
+            raise ValueError(f'Board size has reached its limit ({MAX_LOW})!')
         if self.win > self.board_size:
             raise ValueError('Winning number exceeds the board size!')
         self.pos_range = range(self.board_size)
         self.pos = [[0 for _ in self.pos_range] for _ in self.pos_range]
-        if pos:
-            if isinstance(pos, str):
-                pos = self.str2state(pos)
-            if nested:
-                self.pos = copy.deepcopy(pos)
-            else:
-                for ind, val in enumerate(pos):
-                    i, j = self.compute_coordinate(ind)
-                    self.pos[i][j] = val
+        self.move = (-1, -1)
+        #if pos:
+        #    if isinstance(pos, str):
+        #        pos = self.str2state(pos)
+        #    if nested:
+        #        self.pos = copy.deepcopy(pos)
+        #    else:
+        #        for ind, val in enumerate(pos):
+        #            i, j = self.compute_coordinate(ind)
+        #            self.pos[i][j] = val
 
-        self.count_round()
-        self.user_number = user_number
-        self.chess_number = [0 for x in range(self.user_number)]
+        #self.count_round()
+        self.player_number = 2
+        self.chess_number = [0 for x in range(self.player_number)]
+        self.user_pos_dict = {x:[] for x in range(1, self.player_number + 1)}
         
         self.check = {}
         self.history = {}
-        self.angle = [_*math.pi/4 for _ in range(DIR_NUM)]
+        self.half_angle = [_*math.pi/4 for _ in range(DIR_NUM)]
         self.full_angle = [_*math.pi/4 for _ in range(FULL_DIR_NUM)]
+
+        self.check_re = re.compile(r'^\s*([1-9]\d*)\s*,\s*([1-9]\d*)\s*$')
         
     def __str__(self):
         return ''.join([''.join([str(x) for x in y]) for y in self.pos])
@@ -88,25 +113,45 @@ class Chessboard:
     def __repr__(self):
         return ''.join([''.join([str(x) for x in y]) for y in self.pos])
 
+    def __getitem__(self, pos):
+        return self.pos[pos[0]][pos[1]]
+
+    def mround(self):
+        "Maximum possible round for this game"
+        return self.board_size**2
+
+    def info(self):
+        logging.debug(f"Current Player: {self.player}, last move: {self.move}")
+
+    def celebrate(self, duel=False):
+        if not duel:
+            print(f"Congradulations! Player {self.character[self.player]} won the game!\n")
+        else:
+            print(f"Duel!")
+
+    @property
+    def player(self):
+        return 2 - self.game_round % self.player_number
+
+    def process_ipt(self, ipt):
+        mat = self.check_re.match(ipt)
+        if mat is None:
+            raise ValueError('Error format of coordinate, must be integer, integer(e.g. 1, 1)')
+        pos = mat.groups()
+        pos = (int(pos[0]) - 1, int(pos[1]) - 1)
+        if not self.within_range(pos):
+            raise ValueError(f'Coordinate {pos} exceeds range of chessboard {self.board_size}')
+        self.validate_pos(pos)
+        return pos
+
     def str2state(self, pos_str):
         return [int(x) for x in pos_str]
 
     def get_column(self, column):
         return [_[column] for _ in self.pos]
 
-    def _cal_key(self, pos):
-        return str(pos[0]) + str(pos[1])
-
-    @property
-    def pos_dict(self):
-        return self._pos_dict
-
-    @property
-    def user_pos_dict(self):
-        return self._user_pos_dict
-
-    def get_chess(self, pos):
-        return self.pos[pos[0]][pos[1]]
+    #def _cal_key(self, pos):
+    #    return str(pos[0]) + str(pos[1])
 
     def within_range(self, pos):
         if 0 <= pos[0] < self.board_size and 0 <= pos[1] < self.board_size:
@@ -115,10 +160,9 @@ class Chessboard:
             return False
 
     def skip_round(self, times=1):
-        game_round = self._game_round
         for i in range(times):
-            self.history[self._game_round + i] = copy.deepcopy(self.pos)
-        self._game_round += times
+            self.history[self.game_round + i] = copy.deepcopy(self.pos)
+        self.game_round += times
 
     def get_close_chess(self, current, angle, step=1):
         return (int(current[0] + step*sign(math.cos(angle))), int(current[1] - step*sign(math.sin(angle))))
@@ -133,34 +177,22 @@ class Chessboard:
 
     def compute_coordinate(self, index):
         '''Compute two-dimension coordinate from one-dimension list'''
-        j = index%self.board_size
+        j = index % self.board_size
         i = (index - j) // self.board_size
         return (i, j)
 
     def count_round(self):
-        self._game_round = 1
         for ind_i, val_i in enumerate(self.pos):
             for ind_j, val_j in enumerate(val_i):
                 if val_j != 0:
-                    self._game_round += 1
-
-    @property
-    def game_round(self):
-        return self._game_round
-
-    @game_round.setter
-    def game_round(self, game_round):
-        self._game_round = game_round
-
-    def get_board(self):
-        return self.pos
+                    self.game_round += 1
 
     def undo(self, times=1):
-        if times >= self._game_round:
+        if times >= self.game_round:
             raise ValueError('Too many undos!')
         else:
-            self._game_round = self._game_round - times
-            self.pos = self.history[self._game_round]
+            self.game_round = self.game_round - times
+            self.pos = self.history[self.game_round]
     
     def print_pos(self, coordinates=None, pos=None):
         '''Print the chessboard'''
@@ -219,10 +251,7 @@ class Chessboard:
             return ch
 
     def get_player(self):
-        return 2 - self._game_round % 2
-
-    def get_player_str(self):
-        return self.character.get(self.get_player())
+        return 2 - self.game_round % 2
 
     def another_player(self, player=None):
         if not player:
@@ -232,22 +261,40 @@ class Chessboard:
     def another_player_str(self, player=None):
         return self.character.get(self.another_player(player))
     
-    def set_pos(self, pos, check=False):
+    def set_pos(self, pos, validate=False):#, check=False):
         '''Set a chess'''
-        self.validate_pos(pos)
+        if validate:
+            self.validate_pos(pos)
         x, y = pos
+        self.move = (x + 1, y + 1)
         user = self.get_player()
-        self.history[self._game_round] = copy.deepcopy(self.pos)
+        self.history[self.game_round] = copy.deepcopy(self.pos)
         self.pos[x][y] = user
-        pos_str = self._cal_key(pos)
-        self._pos_dict[pos_str] = user
-        self._user_pos_dict[user].append(pos)
-        self._game_round += 1
-        if check:
-            winning = self.check_win_by_step(x, y, user)
-            return winning
-        else:
-            return (x, y)
+        #pos_str = self._cal_key(pos)
+        #self.pos_dict[pos_str] = user
+        self.user_pos_dict[user].append(pos)
+        #if check:
+        #    winning = self.check_win_by_step(x, y, user)
+        #    return winning
+        #else:
+        #    return (x, y)
+
+    def play(self):
+        finish = False
+        duel = False
+        max_round = self.mround()
+        while not finish:
+            self.game_round += 1
+            self.print_pos()
+            self.info()
+            vpos = self.input()
+            self.set_pos(vpos)
+            finish = self.check_win_by_step(vpos, player=self.player)
+            if self.game_round == max_round and not finish:
+                duel = True
+                break
+        self.celebrate(duel=duel)
+        self.print_pos()
 
     def get_win_list(self):
         return self.win_list
@@ -259,7 +306,12 @@ class Chessboard:
         '''Clear a chessboard'''
         self.pos = [[0 for _ in range(self.board_size)] for _ in range(self.board_size)]
         self.graph = copy.deepcopy(self.pos)
-        self._game_round = 1
+        self.game_round = 1
+
+    def input(self):
+        ipt = input("Please input your chess position:")
+        pos = self.process_ipt(ipt)
+        return pos
 
     def check_win(self):
         '''Check the eight direction of (x, y) for a line
@@ -271,45 +323,43 @@ class Chessboard:
         '''
         pass
 
-    def validate_input(self, input_str, val_pos=True):
-        input_str = input_str.replace(' ', '')
-        pos_str = input_str.split(',')
-        pos_xy = []
-        if pos_str[0] == 'u':
-            try:
-                times = int(pos_str[1])
-            except Exception as e:
-                raise ValueError('Error command, undo command: u, {times}')
-            else:
-                return ('u', times)
-        for pos in pos_str:
-            if len(pos) != 1:
-                raise ValueError('Error position, form: x, y, one character at most')
-            pos_num = self.asc2pos(pos)
-            pos_xy.append(pos_num)
+    #def validate_input(self, input_str):
+    #    input_str = input_str.replace(' ', '')
+    #    pos_str = input_str.split(',')
+    #    pos_xy = []
+    #    if pos_str[0] == 'u':
+    #        try:
+    #            times = int(pos_str[1])
+    #        except Exception as e:
+    #            raise ValueError('Error command, undo command: u, {times}')
+    #        else:
+    #            return ('u', times)
+    #    for pos in pos_str:
+    #        if len(pos) != 1:
+    #            raise ValueError('Error position, form: x, y, one character at most')
+    #        pos_num = self.asc2pos(pos)
+    #        pos_xy.append(pos_num)
 
-        if self.game_name == 'fourinarow':
-            y = pos_xy[0]
-            x = 0
-        else:
-            if len(pos_xy) != 2:
-                raise ValueError('Error position, must have both x and y coordinates')
-            x, y = pos_xy
-        if val_pos:
-            self.validate_pos((x, y))
-        if self.game_name == 'fourinarow':
-            x = self.get_not_num(self.get_column(y)) - 1
-            if x not in self.pos_range:
-                raise PositionError('This column is full')
-        return (x, y)
+    #    #if self.game_name == 'fourinarow':
+    #    #    y = pos_xy[0]
+    #    #    x = 0
+    #    #else:
+    #    if len(pos_xy) != 2:
+    #        raise ValueError('Error position, must have both x and y coordinates')
+    #    x, y = pos_xy
+    #    self.validate_pos((x, y))
+    #    #if self.game_name == 'fourinarow':
+    #    #    x = self.get_not_num(self.get_column(y)) - 1
+    #    #    if x not in self.pos_range:
+    #    #        raise PositionError('This column is full')
+    #    return (x, y)
 
     def validate_pos(self, pos):
         x, y = pos
-        for p in pos:
-            if p not in self.pos_range:
-                raise PositionError('Position value is out of board\'s range')
-        if self.pos[x][y] != 0:
+        t = self.pos[x][y]
+        if t != 0:
             raise PositionError('There is a chess piece on that position')
+        return True
 
     def handle_input(self, input_str, place=True, check=False):
         '''Transfer user input to valid chess position'''
@@ -328,11 +378,12 @@ class Chessboard:
         '''Return the distance of chess piece X and Y (Chebyshev Distance)'''
         return max(abs(piecex[0] - piecey[0]), abs(piecex[1], piecey[1]))
 
-    def check_win_by_step(self, x, y, user, line_number=None):
+    def check_win_by_step(self, pos, player, line_number=None):
         '''Check winners by current step'''
         if not line_number:
             line_number = self.win
-        for ang in self.angle:
+        x, y = pos
+        for ang in self.half_angle:
             self.win_list = [(x, y)]
             angs = [ang, ang + math.pi]
             line_num = 1
@@ -348,7 +399,7 @@ class Chessboard:
                     target_y = int(y - radius*(sign(math.sin(a)))) if direction[ind] else -1
                     if target_x < 0 or target_y < 0 or target_x > self.board_size - 1 or target_y > self.board_size - 1:
                         direction[ind] = 0
-                    elif self.pos[target_x][target_y] == user:
+                    elif self.pos[target_x][target_y] == player:
                         self.win_list.append((target_x, target_y))
                         line_num += 1
                     else:
@@ -356,7 +407,7 @@ class Chessboard:
                 else:
                     radius += 1
         else:
-            return (x, y)
+            return False
 
     def get_not_num(self, seq, num=0):
         '''Find the index of first non num element'''
@@ -367,22 +418,23 @@ class Chessboard:
             return ind
 
     def count_chess(self):
-        result = [0 for x in range(self.user_number)]
+        result = [0 for x in range(self.player_number)]
         for i in self.pos:
             for j in i:
                 result[j - 1] = result[j - 1] + 1 if j != 0 else result[j - 1]
         return result
 
+
 class ChessboardExtension(Chessboard):
     '''Provide extended methods for Class Chessboard'''
-    def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', user_number=2, game_name=None, pos=None, nested=False):
+    def __init__(self, board_size=3, win=3, ch_off='O', ch_def='X', ch_blank=' ', player_number=2, game_name=None, pos=None, nested=False):
         super().__init__(
             board_size=board_size,
             win=win,
             ch_off=ch_off,
             ch_def=ch_def,
             ch_blank=ch_blank,
-            user_number=user_number,
+            player_number=player_number,
             game_name=game_name,
             pos=pos,
             nested=nested)
