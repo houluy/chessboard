@@ -8,7 +8,6 @@ from itertools import combinations_with_replacement as comb
 from itertools import product
 import logging
 
-import chessboard.logger
 from colorline import cprint
 
 
@@ -53,12 +52,14 @@ class Chessboard:
         self.game_round = 0
         self.start_player = 1
         self.win = win
+        self.logger = logging.getLogger(__name__)
         if self.board_size > MAX_LOW:
             raise ValueError(f'Board size has reached its limit ({MAX_LOW})!')
         if self.win > self.board_size:
             raise ValueError('Winning number exceeds the board size!')
         self.pos_range = range(self.board_size)
         self.pos = [[0 for _ in self.pos_range] for _ in self.pos_range]
+        self.top_row = [self.board_size for _ in self.pos_range]
         self.available_actions = list(product(self.pos_range, self.pos_range))
         self.move = (-1, -1)
         #elif pos:
@@ -91,6 +92,7 @@ class Chessboard:
         self.full_angle = [_*math.pi/4 for _ in range(FULL_DIR_NUM)]
 
         self.check_re = re.compile(r'^\s*([1-9]\d*)\s*,\s*([1-9]\d*)\s*$')
+        self.check_row_re = re.compile(r'^([1-9]\d*)$')
         
     def __str__(self):
         return ''.join([''.join([str(x) for x in y]) for y in self.pos])
@@ -106,7 +108,7 @@ class Chessboard:
         return self.board_size**2
 
     def info(self):
-        logging.debug(f"Current Player: {self.player}, last move: {self.move}")
+        self.logger.info(f"Current Player: {self.player}, last move: {self.move}")
 
     def celebrate(self, duel=False):
         if not duel:
@@ -133,6 +135,20 @@ class Chessboard:
         self.validate_pos(pos)
         return pos
 
+    def process_single_ipt(self, ipt):
+        """This function is used to process single input of row, particular for fourinarow game"""
+        mat = self.check_row_re.match(ipt)
+        if mat is None:
+            raise ValueError('Error format of coordinate, must be a tuple of one integer, e.g., 1')
+        column = int(mat.groups()[0])
+        if column > self.board_size or column <= 0:
+            raise ValueError(f'Coordinate {column} exceeds range of chessboard with {self.board_size}')
+        row = self.get_row_by_column(column)
+        if row == 0:
+            raise ValueError(f'There is a chess piece!')
+        pos = (row - 1, column - 1)
+        return pos
+
     @property
     def state(self):
         return [y for x in self.pos for y in x]
@@ -141,7 +157,7 @@ class Chessboard:
         return [int(x) for x in pos_str]
 
     def get_column(self, column):
-        return [_[column] for _ in self.pos]
+        return [_[column - 1] for _ in self.pos]
 
     def state2board(self, state):
         board_size = int(math.sqrt(len(state)))
@@ -262,7 +278,10 @@ class Chessboard:
             return ch
 
     def get_player(self):
-        return 2 - self.game_round % 2
+        if self.game_round % 2:
+            return 1
+        else:
+            return 2
 
     def another_player(self, player=None):
         if not player:
@@ -282,6 +301,9 @@ class Chessboard:
         player = self.get_player()
         self.history[self.game_round] = copy.deepcopy(self.pos)
         self.pos[x][y] = player
+        self.logger.debug(f"SET_POS -- Current player: {player}")
+        if self.top_row[y] > x:
+            self.top_row[y] = x
         self.user_pos_dict[player].append(pos)
 
     def play(self):
@@ -310,6 +332,7 @@ class Chessboard:
         self.graph = copy.deepcopy(self.pos)
         self.game_round = 0
         self.available_actions = list(product(self.pos_range, self.pos_range))
+        self.top_row = [self.board_size for _ in self.pos_range]
 
     def input(self):
         ipt = input("Please input your chess position:")
@@ -382,31 +405,54 @@ class Chessboard:
         return max(abs(piecex[0] - piecey[0]), abs(piecex[1], piecey[1]))
 
     def check_win_by_step(self, pos, player, line_number=None):
-        '''Check winners by current step'''
+        ''' Check winners by current step
+            Eight direction:
+                  🡔|↑|🡕 
+                  ←|o|→
+                  🡗|↓|🡖
+
+            3π/4|   π   |5π/4
+             π/2|   O   |3π/2
+             π/4|   0   |7π/4
+
+        (-1, -1)|(-1, 0)|(-1, 1)
+         (0, -1)|(0, 0) |(0, 1)
+         (1, -1)|(1, 0) |(1, 1)
+
+            # direction = [Forward (0 ~ π), Backward (π ~ 2π)]
+        '''
         if not line_number:
             line_number = self.win
         x, y = pos
+        self.logger.debug(f"Current position: {(x, y)}")
         for ang in self.half_angle:
             self.win_list = [(x, y)]
             angs = [ang, ang + math.pi]
             line_num = 1
             radius = 1
             direction = [1, 1]
-            while True:
+            while direction != [0, 0]:
                 if line_num == line_number:
                     return True
-                if direction == [0, 0]:
-                    break
                 for ind, a in enumerate(angs):
-                    target_x = int(x + radius*(sign(math.cos(a)))) if direction[ind] else -1
-                    target_y = int(y - radius*(sign(math.sin(a)))) if direction[ind] else -1
-                    if target_x < 0 or target_y < 0 or target_x > self.board_size - 1 or target_y > self.board_size - 1:
-                        direction[ind] = 0
-                    elif self.pos[target_x][target_y] == player:
-                        self.win_list.append((target_x, target_y))
-                        line_num += 1
+                    if direction[ind]:
+                        target_x = int(x + radius*(sign(math.cos(a))))
+                        target_y = int(y - radius*(sign(math.sin(a))))
                     else:
+                        target_x = target_y = -1
+                    if target_x < 0 or target_y < 0 or target_x >= self.board_size or target_y >= self.board_size:
                         direction[ind] = 0
+                    else:
+                        next_pos = self.pos[target_x][target_y]
+                        self.logger.debug(f"Radius: {radius}, Angle: {a * 57.2957795:.0f}, Position: {(target_x, target_y)}"
+                                f"direction: {direction}, Player: {player} "
+                                f"Next_pos: {next_pos}")
+                        if next_pos == player:
+                            self.win_list.append((target_x, target_y))
+                            line_num += 1
+                            self.logger.debug(f"Win_list: {self.win_list}")
+                        else:
+                            direction[ind] = 0
                 else:
                     radius += 1
         else:
@@ -427,6 +473,25 @@ class Chessboard:
                 result[j - 1] = result[j - 1] + 1 if j != 0 else result[j - 1]
         return result
 
+    def get_row_by_column(self, column):
+        '''Get the available row number of the given column
+        e.g.:
+            1 2 3
+          1| | |X|
+          2|O| |O|
+          3|X| |X|
+        assert get_row_by_column(1) == 1
+        assert get_row_by_column(2) == 3
+        assert get_row_by_column(3) == 0
+        NOTE: 0 is unavailable move
+
+        Args:
+            column: The actual index of column (1, 2, 3 in the e.g.)
+        Return:
+            int: The actual index of top index of row (0, 1, 2, 3 in  the e.g.)
+        '''
+        return self.top_row[column - 1]
+        
 
 class ChessboardExtension(Chessboard):
     '''Provide extended methods for Class Chessboard'''

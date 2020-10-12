@@ -102,3 +102,30 @@ class TestChessboard(unittest.TestCase):
         board = [[1, 2, 0, 1], [2, 0, 1, 1], [2, 2, 1, 1], [1, 0, 0, 0]]
         self.assertEqual(self.chessboard.state2board(state), board)
 
+    def test_play(self):
+        self.chessboard.clear()
+        self.chessboard.play()
+
+    def test_column(self):
+        self.chessboard.clear()
+        self.chessboard.set_pos((1, 1))
+        columns = self.chessboard.get_column(2)
+        self.assertEqual(columns, [0, 1, 0])
+        top_row = self.chessboard.get_row_by_column(2)
+        self.assertEqual(top_row, 2)
+        self.chessboard.game_round += 1
+        self.chessboard.set_pos((0, 1))
+        columns = self.chessboard.get_column(2)
+        self.assertEqual(columns, [2, 1, 0])
+        top_row = self.chessboard.get_row_by_column(2)
+        self.assertEqual(top_row, 1)
+
+    def test_process_ipt(self):
+        valid_ipt = '1, 2'
+        pos = self.chessboard.process_ipt(valid_ipt)
+        self.assertEqual(pos, (0, 1))
+        valid_column_ipt = '1'
+        pos = self.chessboard.process_single_ipt(valid_column_ipt)
+        self.assertEqual(pos, 0)
+
+
