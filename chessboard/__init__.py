@@ -18,8 +18,9 @@ ASC_Z = ord('Z')
 ASC_a = ord('a')
 ASC_z = ord('z')
 MAX_NUM = 9
-MAX_CAP = MAX_NUM + 26
-MAX_LOW = MAX_CAP + 26
+MAX_LETTER_NUM = 26
+MAX_CAP = MAX_NUM + MAX_LETTER_NUM
+MAX_LOW = MAX_CAP + MAX_LETTER_NUM
 DIR_NUM = 4
 FULL_DIR_NUM = 8
 sign = lambda a: (a > 10**(-10)) - (a < -10**(-10))
@@ -62,26 +63,6 @@ class Chessboard:
         self.top_row = [self.board_size for _ in self.pos_range]
         self.available_actions = list(product(self.pos_range, self.pos_range))
         self.move = (-1, -1)
-        #elif pos:
-        #    self.win = win
-        #    if isinstance(pos, str):
-        #        self.board_size = int(math.sqrt(len(pos)))
-        #    else:
-        #        if isinstance(pos[0], list):
-        #            self.board_size = len(pos)
-        #        else:
-        #            self.board_size = int(math.sqrt(len(pos)))
-        #if pos:
-        #    if isinstance(pos, str):
-        #        pos = self.str2state(pos)
-        #    if nested:
-        #        self.pos = copy.deepcopy(pos)
-        #    else:
-        #        for ind, val in enumerate(pos):
-        #            i, j = self.compute_coordinate(ind)
-        #            self.pos[i][j] = val
-
-        #self.count_round()
         self.player_number = 2
         self.chess_number = [0 for x in range(self.player_number)]
         self.user_pos_dict = {x:[] for x in range(1, self.player_number + 1)}
@@ -91,8 +72,8 @@ class Chessboard:
         self.half_angle = [_*math.pi/4 for _ in range(DIR_NUM)]
         self.full_angle = [_*math.pi/4 for _ in range(FULL_DIR_NUM)]
 
-        self.check_re = re.compile(r'^\s*([1-9]\d*)\s*,\s*([1-9]\d*)\s*$')
-        self.check_row_re = re.compile(r'^([1-9]\d*)$')
+        self.check_re = re.compile(r'^\s*([1-9|A-Z|a-z])\s*,\s*([1-9|A-Z|a-z])\s*$')
+        self.check_row_re = re.compile(r'^([1-9|A-Z|a-z])$')
         
     def __str__(self):
         return ''.join([''.join([str(x) for x in y]) for y in self.pos])
@@ -127,11 +108,25 @@ class Chessboard:
     def process_ipt(self, ipt):
         mat = self.check_re.match(ipt)
         if mat is None:
-            raise ValueError('Error format of coordinate, must be a tuple of two integers, e.g. (1, 1)')
-        pos = mat.groups()
-        pos = (int(pos[0]) - 1, int(pos[1]) - 1)
+            raise ValueError('Error format of coordinate, must be a tuple of two positive integers or letters, e.g. (1, 1)')
+        original_pos = mat.groups()
+        target_pos = [0 for _ in range(2)]
+        for ind in range(2):
+            try:
+                cord = int(original_pos[ind]) - 1
+            except ValueError:
+                # Input is not an integer but a letter A-Z or a-z
+                cord = ord(original_pos[ind])
+                # Check the range of letter
+                # If A-Z
+                if cord - ASC_A < MAX_LETTER_NUM: # A-Z
+                    cord = cord - ASC_A + MAX_NUM
+                else:
+                    cord = cord - ASC_a + MAX_CAP
+            target_pos[ind] = cord
+        pos = tuple(target_pos)
         if not self.within_range(pos):
-            raise ValueError(f'Coordinate {pos} exceeds range of chessboard {self.board_size}')
+            raise ValueError(f'Coordinate {original_pos} exceeds range of chessboard with {self.board_size}')
         self.validate_pos(pos)
         return pos
 
@@ -139,10 +134,22 @@ class Chessboard:
         """This function is used to process single input of row, particular for fourinarow game"""
         mat = self.check_row_re.match(ipt)
         if mat is None:
-            raise ValueError('Error format of coordinate, must be a tuple of one integer, e.g., 1')
-        column = int(mat.groups()[0])
+            raise ValueError('Error format of coordinate, must be a tuple of one positive integer or letter, e.g., 1')
+        original_column = mat.groups()[0]
+        try:
+            cord = int(original_column)
+        except ValueError:
+            # Input is not an integer but a letter A-Z or a-z
+            cord = ord(original_column)
+            # Check the range of letter
+            # If A-Z
+            if cord - ASC_A < MAX_LETTER_NUM: # A-Z
+                cord = cord - ASC_A + MAX_NUM
+            else:
+                cord = cord - ASC_a + MAX_CAP
+        column = cord
         if column > self.board_size or column <= 0:
-            raise ValueError(f'Coordinate {column} exceeds range of chessboard with {self.board_size}')
+            raise ValueError(f'Coordinate {original_column} exceeds range of chessboard with {self.board_size}')
         row = self.get_row_by_column(column)
         if row == 0:
             raise ValueError(f'There is a chess piece!')
@@ -301,7 +308,6 @@ class Chessboard:
         player = self.get_player()
         self.history[self.game_round] = copy.deepcopy(self.pos)
         self.pos[x][y] = player
-        self.logger.debug(f"SET_POS -- Current player: {player}")
         if self.top_row[y] > x:
             self.top_row[y] = x
         self.user_pos_dict[player].append(pos)
@@ -424,7 +430,6 @@ class Chessboard:
         if not line_number:
             line_number = self.win
         x, y = pos
-        self.logger.debug(f"Current position: {(x, y)}")
         for ang in self.half_angle:
             self.win_list = [(x, y)]
             angs = [ang, ang + math.pi]
@@ -444,13 +449,9 @@ class Chessboard:
                         direction[ind] = 0
                     else:
                         next_pos = self.pos[target_x][target_y]
-                        self.logger.debug(f"Radius: {radius}, Angle: {a * 57.2957795:.0f}, Position: {(target_x, target_y)}"
-                                f"direction: {direction}, Player: {player} "
-                                f"Next_pos: {next_pos}")
                         if next_pos == player:
                             self.win_list.append((target_x, target_y))
                             line_num += 1
-                            self.logger.debug(f"Win_list: {self.win_list}")
                         else:
                             direction[ind] = 0
                 else:
