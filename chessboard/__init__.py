@@ -61,7 +61,10 @@ class Chessboard:
         self.pos_range = range(self.board_size)
         self.pos = [[0 for _ in self.pos_range] for _ in self.pos_range]
         self.top_row = [self.board_size for _ in self.pos_range]
+        # Available actions
         self.available_actions = list(product(self.pos_range, self.pos_range))
+        # Available columns
+        self.available_columns = list(self.pos_range)
         self.move = (-1, -1)
         self.player_number = 2
         self.chess_number = [0 for x in range(self.player_number)]
@@ -187,6 +190,22 @@ class Chessboard:
                         available_actions.append((i, j))
             return available_actions
 
+    def columns(self, board=None):
+        if board is None:
+            return self.available_columns
+        else:
+            available_columns = []
+            #  1 2 3
+            #1| |X|O|
+            #2|X|O|X| => column 1: [0, 1, 2], column 2: [1, 2, 0], column 3: [2, 1, 0]
+            #3|O| | |
+            #
+            for j in self.pos_range:
+                column = self.get_column(j)
+                if column[0] == 0:
+                    available_columns.append(j)
+            return self.available_columns
+
     def within_range(self, pos):
         if 0 <= pos[0] < self.board_size and 0 <= pos[1] < self.board_size:
             return True
@@ -304,6 +323,8 @@ class Chessboard:
             self.validate_pos(pos)
         x, y = pos
         self.available_actions.remove(pos)
+        if x == self.board_size - 1: # Chess has reached the top of the rows
+            self.available_columns.remove(y)
         self.move = (x + 1, y + 1)
         player = self.get_player()
         self.history[self.game_round] = copy.deepcopy(self.pos)
@@ -338,6 +359,7 @@ class Chessboard:
         self.graph = copy.deepcopy(self.pos)
         self.game_round = 0
         self.available_actions = list(product(self.pos_range, self.pos_range))
+        self.available_columns = list(self.pos_range)
         self.top_row = [self.board_size for _ in self.pos_range]
 
     def input(self):
