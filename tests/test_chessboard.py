@@ -79,19 +79,19 @@ class TestChessboard(unittest.TestCase):
         self.chessboard.clear()
         self.chessboard.set_pos((1, 1))
         target = [(0, 0), (0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1), (2, 2)] 
-        self.assertCountEqual(self.chessboard.available_actions, target)
+        self.assertCountEqual(self.chessboard.available_pos, target)
         self.assertCountEqual(self.chessboard.positions(self.chessboard.pos), target)
         self.chessboard.set_pos((2, 2))
         target = [(0, 0), (0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1)] 
-        self.assertCountEqual(self.chessboard.available_actions, target)
+        self.assertCountEqual(self.chessboard.available_pos, target)
         self.assertCountEqual(self.chessboard.positions(self.chessboard.pos), target)
         self.chessboard.set_pos((0, 0))
         target = [(0, 1), (0, 2), (1, 0), (1, 2), (2, 0), (2, 1)] 
-        self.assertCountEqual(self.chessboard.available_actions, target)
+        self.assertCountEqual(self.chessboard.available_pos, target)
         self.assertCountEqual(self.chessboard.positions(self.chessboard.pos), target)
         self.chessboard.clear()
         target = [(0, 0), (0, 1), (0, 2), (1, 0), (1, 1), (1, 2), (2, 0), (2, 1), (2, 2)] 
-        self.assertCountEqual(self.chessboard.available_actions, target)
+        self.assertCountEqual(self.chessboard.available_pos, target)
         self.assertCountEqual(self.chessboard.positions(self.chessboard.pos), target)
 
     def test_state2board(self):
@@ -106,19 +106,29 @@ class TestChessboard(unittest.TestCase):
         self.chessboard.clear()
         self.chessboard.play()
 
-    def test_column(self):
+    def test_column_operation(self):
         self.chessboard.clear()
         self.chessboard.set_pos((1, 1))
-        columns = self.chessboard.get_column(2)
+        columns = self.chessboard.get_column(1)
         self.assertEqual(columns, [0, 1, 0])
         top_row = self.chessboard.get_row_by_column(2)
         self.assertEqual(top_row, 2)
         self.chessboard.game_round += 1
         self.chessboard.set_pos((0, 1))
-        columns = self.chessboard.get_column(2)
+        columns = self.chessboard.get_column(1)
         self.assertEqual(columns, [2, 1, 0])
         top_row = self.chessboard.get_row_by_column(2)
         self.assertEqual(top_row, 1)
+
+    def test_columns(self):
+        self.chessboard.clear()
+        self.chessboard.set_pos((1, 1))
+        self.assertEqual(self.chessboard.columns(), [0, 1, 2])
+        self.chessboard.set_pos((0, 1))
+        self.assertEqual(self.chessboard.columns(self.chessboard.pos), [0, 2])
+        self.chessboard.set_pos((0, 0))
+        self.chessboard.set_pos((0, 2))
+        self.assertEqual(self.chessboard.columns(), [])
 
     def test_process_ipt(self):
         valid_ipt = '1, 2'

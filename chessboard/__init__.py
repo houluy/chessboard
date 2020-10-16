@@ -62,7 +62,7 @@ class Chessboard:
         self.pos = [[0 for _ in self.pos_range] for _ in self.pos_range]
         self.top_row = [self.board_size for _ in self.pos_range]
         # Available actions
-        self.available_actions = list(product(self.pos_range, self.pos_range))
+        self.available_pos = list(product(self.pos_range, self.pos_range))
         # Available columns
         self.available_columns = list(self.pos_range)
         self.move = (-1, -1)
@@ -167,7 +167,7 @@ class Chessboard:
         return [int(x) for x in pos_str]
 
     def get_column(self, column):
-        return [_[column - 1] for _ in self.pos]
+        return [_[column] for _ in self.pos]
 
     def state2board(self, state):
         board_size = int(math.sqrt(len(state)))
@@ -181,14 +181,14 @@ class Chessboard:
     def positions(self, board=None):
         """Return the available positions based on a board"""
         if board is None:
-            return self.available_actions
+            return self.available_pos
         else:
-            available_actions = []
+            available_pos = []
             for i in self.pos_range:
                 for j in self.pos_range:
                     if board[i][j] == 0:
-                        available_actions.append((i, j))
-            return available_actions
+                        available_pos.append((i, j))
+            return available_pos
 
     def columns(self, board=None):
         if board is None:
@@ -201,10 +201,10 @@ class Chessboard:
             #3|O| | |
             #
             for j in self.pos_range:
-                column = self.get_column(j)
+                column = [i[j] for i in board]
                 if column[0] == 0:
                     available_columns.append(j)
-            return self.available_columns
+            return available_columns
 
     def within_range(self, pos):
         if 0 <= pos[0] < self.board_size and 0 <= pos[1] < self.board_size:
@@ -322,8 +322,8 @@ class Chessboard:
         if validate:
             self.validate_pos(pos)
         x, y = pos
-        self.available_actions.remove(pos)
-        if x == self.board_size - 1: # Chess has reached the top of the rows
+        self.available_pos.remove(pos)
+        if x == 0: # Chess has reached the top of the rows
             self.available_columns.remove(y)
         self.move = (x + 1, y + 1)
         player = self.get_player()
@@ -358,7 +358,7 @@ class Chessboard:
         self.pos = [[0 for _ in range(self.board_size)] for _ in range(self.board_size)]
         self.graph = copy.deepcopy(self.pos)
         self.game_round = 0
-        self.available_actions = list(product(self.pos_range, self.pos_range))
+        self.available_pos = list(product(self.pos_range, self.pos_range))
         self.available_columns = list(self.pos_range)
         self.top_row = [self.board_size for _ in self.pos_range]
 
@@ -586,13 +586,12 @@ class ChessboardExtension(Chessboard):
     def get_action(self, pos=None):
         if not pos:
             pos = self.pos
-
-        available_actions = []
+        available_pos = []
         for i in self.pos_range:
             for j in self.pos_range:
                 if pos[i][j] == 0:
-                    available_actions.append((i, j))
-        return available_actions
+                    available_pos.append((i, j))
+        return available_pos
 
     def tostate(self, pos=None):
         if not pos:
