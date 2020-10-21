@@ -139,3 +139,59 @@ class TestChessboard(unittest.TestCase):
         self.assertEqual(pos, 0)
 
 
+class TestFourinarowChessboar(unittest.TestCase):
+    def setUp(self):
+        self.chessboard = chessboard.Chessboard(board_size=7)
+
+    def test_state(self):
+        pos = (6, 0)
+        self.chessboard.set_pos(pos)
+        test_state = [0 for _ in range(7*7)]
+        test_state[-7] = 1
+        self.assertEqual(self.chessboard.state, test_state)
+
+    def test_getrowbycolumn(self):
+        self.chessboard.clear()
+        column = 0
+        row = self.chessboard.get_row_by_column(column)
+        self.assertEqual(row, 6)
+        self.chessboard.set_pos((6, 0))
+        row = self.chessboard.get_row_by_column(column)
+        self.assertEqual(row, 5)
+
+        self.chessboard.set_pos((5, 0))
+        row = self.chessboard.get_row_by_column(column)
+        self.assertEqual(row, 4)
+
+        self.chessboard.set_pos((4, 0))
+        row = self.chessboard.get_row_by_column(column)
+        self.assertEqual(row, 3)
+
+        self.chessboard.set_pos((3, 0))
+        row = self.chessboard.get_row_by_column(column)
+        self.assertEqual(row, 2)
+
+        self.chessboard.set_pos((2, 0))
+        row = self.chessboard.get_row_by_column(column)
+        self.assertEqual(row, 1)
+
+        self.chessboard.set_pos((1, 0))
+        row = self.chessboard.get_row_by_column(column)
+        self.assertEqual(row, 0)
+
+        self.chessboard.set_pos((0, 0))
+        row = self.chessboard.get_row_by_column(column)
+        self.assertEqual(row, -1)
+
+    def test_single_ipt(self):
+        test_ipt = "1"
+        pos = self.chessboard.process_single_ipt(test_ipt)
+        self.assertEqual(pos, (6, 0))
+        test_ipt = "2"
+        pos = self.chessboard.process_single_ipt(test_ipt)
+        self.assertEqual(pos, (6, 1))
+        self.chessboard.set_pos(pos)
+        test_ipt = "2"
+        pos = self.chessboard.process_single_ipt(test_ipt)
+        self.assertEqual(pos, (5, 1))
+

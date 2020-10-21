@@ -50,7 +50,7 @@ class Chessboard:
         #self.pos_dict = {}
         self.graph = []
         self.board_size = board_size
-        self.game_round = 0
+        self.game_round = 1
         self.start_player = 1
         self.win = win
         self.logger = logging.getLogger(__name__)
@@ -60,7 +60,7 @@ class Chessboard:
             raise ValueError('Winning number exceeds the board size!')
         self.pos_range = range(self.board_size)
         self.pos = [[0 for _ in self.pos_range] for _ in self.pos_range]
-        self.top_row = [self.board_size for _ in self.pos_range]
+        self.top_row = [self.board_size - 1 for _ in self.pos_range]
         # Available actions
         self.available_pos = list(product(self.pos_range, self.pos_range))
         # Available columns
@@ -153,10 +153,11 @@ class Chessboard:
         column = cord
         if column > self.board_size or column <= 0:
             raise ValueError(f'Coordinate {original_column} exceeds range of chessboard with {self.board_size}')
+        column -= 1
         row = self.get_row_by_column(column)
         if row == 0:
             raise ValueError(f'There is a chess piece!')
-        pos = (row - 1, column - 1)
+        pos = (row, column)
         return pos
 
     @property
@@ -329,8 +330,14 @@ class Chessboard:
         player = self.get_player()
         self.history[self.game_round] = copy.deepcopy(self.pos)
         self.pos[x][y] = player
-        if self.top_row[y] > x:
-            self.top_row[y] = x
+        #  1 2 3
+        #1| | |O|
+        #2|X| |X|
+        #3|O|X| |
+        # pos: (0, 0)
+        # top_row[0] = 0 => top_row[0] = 0 - 1 = -1
+        if self.top_row[y] == x:
+            self.top_row[y] = x - 1
         self.user_pos_dict[player].append(pos)
 
     def play(self):
@@ -360,7 +367,7 @@ class Chessboard:
         self.game_round = 0
         self.available_pos = list(product(self.pos_range, self.pos_range))
         self.available_columns = list(self.pos_range)
-        self.top_row = [self.board_size for _ in self.pos_range]
+        self.top_row = [self.board_size - 1 for _ in self.pos_range]
 
     def input(self):
         ipt = input("Please input your chess position:")
@@ -503,17 +510,17 @@ class Chessboard:
           1| | |X|
           2|O| |O|
           3|X| |X|
-        assert get_row_by_column(1) == 1
-        assert get_row_by_column(2) == 3
-        assert get_row_by_column(3) == 0
+        assert get_row_by_column(0) == 0
+        assert get_row_by_column(1) == 2
+        assert get_row_by_column(2) == -1
         NOTE: 0 is unavailable move
 
         Args:
-            column: The actual index of column (1, 2, 3 in the e.g.)
+            column: The index of column (0, 1, 2 in the e.g.)
         Return:
-            int: The actual index of top index of row (0, 1, 2, 3 in  the e.g.)
+            int: The index of top index of row (-1, 0, 1, 2 in the e.g.)
         '''
-        return self.top_row[column - 1]
+        return self.top_row[column]
         
 
 class ChessboardExtension(Chessboard):
