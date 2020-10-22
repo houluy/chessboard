@@ -364,7 +364,7 @@ class Chessboard:
         '''Clear a chessboard'''
         self.pos = [[0 for _ in range(self.board_size)] for _ in range(self.board_size)]
         self.graph = copy.deepcopy(self.pos)
-        self.game_round = 0
+        self.game_round = 1
         self.available_pos = list(product(self.pos_range, self.pos_range))
         self.available_columns = list(self.pos_range)
         self.top_row = [self.board_size - 1 for _ in self.pos_range]
